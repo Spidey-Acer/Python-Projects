@@ -33,4 +33,6 @@ If you have any suggestions or improvements, feel free to open an issue or submi
 - [LinkedIn](#) 💼
 - [Blog](#) ✍️
 
+Thank you for visiting my JavaScript Projects repository. I hope you find these projects interesting and useful! 🌟
+
 Happy Coding! 🚀
