@@ -3,7 +3,7 @@ findspark.init()
 
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import regexp_extract
+from pyspark.sql.functions import regexp_extract, col
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -71,10 +71,17 @@ df_student2.show()
 # Convert to Pandas for analysis
 df2 = df_student2.toPandas()
 
+# Check for empty values in df2
+print("Student 2 DataFrame after conversion to Pandas:")
+print(df2.head())
+
+# Convert Response Size to numeric, forcing errors to NaN
+df2['Response Size'] = pd.to_numeric(df2['Response Size'], errors='coerce')
+
 # Advanced Analysis for Student 2
 # 1. Count of responses by status code
 print("Count of responses by HTTP Status Code for Student 2:")
-df_student2.groupBy('HTTP Status Code').count().show()
+df _student2.groupBy('HTTP Status Code').count().show()
 
 # 2. Average response size
 print("Average Response Size for Student 2:")
