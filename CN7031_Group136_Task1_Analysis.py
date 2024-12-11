@@ -11,7 +11,7 @@ sc = SparkContext(conf=conf)
 spark = SparkSession(sc)
 
 # Load the dataset
-data = spark.read.text("/web.log")
+data = spark.read.text("web.log")
 
 # Task 1 - Student 1: Extract IP Address, Timestamp, HTTP Method
 regex_student1 = r"(\d+\.\d+\.\d+\.\d+) - - \[(.*?)\] \"([A-Z]+)"
