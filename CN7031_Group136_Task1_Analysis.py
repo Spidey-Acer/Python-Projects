@@ -81,7 +81,7 @@ df2['Response Size'] = pd.to_numeric(df2['Response Size'], errors='coerce')
 # Advanced Analysis for Student 2
 # 1. Count of responses by status code
 print("Count of responses by HTTP Status Code for Student 2:")
-df _student2.groupBy('HTTP Status Code').count().show()
+df_student2.groupBy('HTTP Status Code').count().show()
 
 # 2. Average response size
 print("Average Response Size for Student 2:")
