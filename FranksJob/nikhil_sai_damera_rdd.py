@@ -6,7 +6,7 @@ sc = SparkContext()
 
 # Sample data
 data = [
-    "127.0.0.1 - - [10/Dec/2024:13:55:36 +0000] "GET /index.html HTTP/1.1" 200 2326",
+    "127.0.0.1 - - [10/Dec/2024:13:55:36 +0000] \"GET /index.html HTTP/1.1\" 200 2326",
 ]
 
 # Parse logs
