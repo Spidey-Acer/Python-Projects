@@ -1,99 +1,178 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PySpark Analysis Report</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PySpark Coursework Report - Revamped</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0 20px;
-        }
-        header, footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-        }
-        section {
-            margin-bottom: 20px;
-        }
-        h1, h2, h3 {
-            color: #333;
-        }
-        pre {
-            background: #f4f4f4;
-            padding: 10px;
-            border: 1px solid #ddd;
-            overflow-x: auto;
-        }
-        code {
-            background: #f4f4f4;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0 20px;
+      }
+      header,
+      footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+      }
+      section {
+        margin-bottom: 20px;
+      }
+      article {
+        margin-bottom: 20px;
+      }
+      pre {
+        background: #f4f4f4;
+        padding: 10px;
+        border: 1px solid #ddd;
+        overflow-x: auto;
+      }
+      code {
+        background: #f4f4f4;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>PySpark Data Processing Analysis</h1>
+      <h1>PySpark Coursework Report - Revamped</h1>
     </header>
 
     <section>
-        <h2>Introduction</h2>
-        <p>This report showcases the implementation of various data processing tasks using PySpark DataFrames and RDDs.</p>
+      <h2>Introduction</h2>
+      <p>
+        This report presents the implementation of PySpark data processing tasks
+        assigned to team members Navya Athoti, Phalguna Avalagunta, Nikhil Sai
+        Damera, and Sai Kishore Dodda.
+      </p>
     </section>
 
     <section>
-        <h2>Data Processing Using PySpark DF</h2>
-        <h3>1. DF Creation with REGEX</h3>
-        <p>Each team member defines a custom schema using REGEX to extract specific metrics. Example:</p>
-        <pre><code>from pyspark.sql.types import StructType, StructField, StringType
+      <h2>Individual Contributions</h2>
+
+      <article>
+        <h3>Navya Athoti</h3>
+        <p>
+          <strong>Task:</strong> DF Creation with REGEX to extract IP address,
+          timestamp, and HTTP method.
+        </p>
+        <pre><code>
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField, StringType
 import re
 
-# Sample REGEX
-log_regex = r'(?P<ip>\d+\.\d+\.\d+\.\d+) - - \[(?P<timestamp>.*?)\] "(?P<method>[A-Z]+)'
-</code></pre>
-        <p>See the full implementation: <a href="task1_df_regex.py">task1_df_regex.py</a></p>
+# Initialize Spark session
+spark = SparkSession.builder.appName("NavyaAthoti_Regex").getOrCreate()
 
-        <h3>2. Advanced DF Analysis</h3>
-        <p>SQL queries using window and aggregation functions are used to derive insights. Example:</p>
-        <pre><code>df.createOrReplaceTempView("logs")
-query = '''
-SELECT ip, COUNT(*) as request_count
-FROM logs
-GROUP BY ip
-ORDER BY request_count DESC
-LIMIT 10
-'''
-spark.sql(query).show()</code></pre>
-        <p>See the full implementation: <a href="task2_df_analysis.py">task2_df_analysis.py</a></p>
-    </section>
+# Sample log data
+data = [
+    "127.0.0.1 - - [10/Dec/2024:13:55:36 +0000] \\"GET /index.html HTTP/1.1\\" 200 2326",
+]
 
-    <section>
-        <h2>Data Processing Using PySpark RDD</h2>
-        <h3>1. Basic RDD Analysis</h3>
-        <p>Log entries are parsed and basic transformations are applied. Example:</p>
-        <pre><code>from pyspark import SparkContext
+# Define schema and REGEX
+schema = StructType([
+    StructField("ip", StringType(), True),
+    StructField("timestamp", StringType(), True),
+    StructField("method", StringType(), True)
+])
 
+log_regex = r'(\\d+\\.\\d+\\.\\d+\\.\\d+) - - \\[(.*?)\\] \\"([A-Z]+)'
+
+# Parse logs
+rdd = spark.sparkContext.parallelize(data)
+parsed_rdd = rdd.map(lambda line: re.search(log_regex, line).groups())
+df = spark.createDataFrame(parsed_rdd, schema)
+df.show()
+        </code></pre>
+      </article>
+
+      <article>
+        <h3>Phalguna Avalagunta</h3>
+        <p>
+          <strong>Task:</strong> Advanced DataFrame Analysis using window
+          functions for rolling hourly traffic.
+        </p>
+        <pre><code>
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import window
+
+# Initialize Spark session
+spark = SparkSession.builder.appName("PhalgunaAvalagunta_Analysis").getOrCreate()
+
+# Sample DataFrame
+data = [
+    ("2024-12-10 10:00:00", "192.168.1.1", 200, 1234),
+    ("2024-12-10 10:01:00", "192.168.1.2", 404, 2345),
+]
+schema = ["timestamp", "ip", "status", "size"]
+df = spark.createDataFrame(data, schema)
+
+# Rolling hourly traffic analysis
+df.groupBy(window("timestamp", "1 hour")).count().show()
+        </code></pre>
+      </article>
+
+      <article>
+        <h3>Nikhil Sai Damera</h3>
+        <p>
+          <strong>Task:</strong> Basic RDD Analysis for parsing and extracting
+          log information.
+        </p>
+        <pre><code>
+from pyspark import SparkContext
+
+# Initialize Spark context
 sc = SparkContext()
-logs_rdd = sc.textFile("weblogs.txt")
 
-# Parse log entries
-def parse_log(line):
-    fields = line.split()
-    return fields[0], fields[3], fields[5]
+# Sample data
+data = [
+    "127.0.0.1 - - [10/Dec/2024:13:55:36 +0000] \\"GET /index.html HTTP/1.1\\" 200 2326",
+]
 
-parsed_logs = logs_rdd.map(parse_log)
-</code></pre>
-        <p>See the full implementation: <a href="task1_rdd_basic.py">task1_rdd_basic.py</a></p>
+# Parse logs
+rdd = sc.parallelize(data).map(lambda line: line.split(" "))
+rdd.foreach(print)
+        </code></pre>
+      </article>
+
+      <article>
+        <h3>Sai Kishore Dodda</h3>
+        <p>
+          <strong>Task:</strong> Optimization techniques including caching for
+          performance improvement.
+        </p>
+        <pre><code>
+from pyspark.sql import SparkSession
+
+# Initialize Spark session
+spark = SparkSession.builder.appName("SaiKishoreDodda_Optimization").getOrCreate()
+
+# Sample DataFrame
+data = [
+    ("2024-12-10 10:00:00", "192.168.1.1", 200, 1234),
+    ("2024-12-10 10:01:00", "192.168.1.2", 404, 2345),
+]
+schema = ["timestamp", "ip", "status", "size"]
+df = spark.createDataFrame(data, schema)
+
+# Apply caching
+df.cache()
+df.show()
+        </code></pre>
+      </article>
     </section>
 
     <footer>
-        <p>Generated by PySpark Research Assistant</p>
+      <p>&copy; 2024 PySpark Team</p>
     </footer>
-</body>
+  </body>
 </html>
