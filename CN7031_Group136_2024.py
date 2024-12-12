@@ -19,6 +19,7 @@ from pyspark.sql.functions import (
 )
 from pyspark.sql.window import Window
 from pyspark.sql.types import *
+from pyspark.sql.functions import max as spark_max # Avoid conflict with Python's max function
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -48,7 +49,7 @@ def load_data(spark, path="web.log"):
         print(f"Error loading data: {str(e)}")
         raise
 
-data = load_data(spark)
+data = load_data(spark, path="web.log")
 
 # Task 1: Data Processing using PySpark DF [40 marks]
 
@@ -145,6 +146,38 @@ df_student2 = data.select(
     regexp_extract('value', regex_student2, 3).alias('Timestamp')
 ).cache()
 
+# Student 3 (Nikhil Sai Damera u2810262)
+print("\nStudent 3 Analysis - URL Pattern Analysis")
+print("=" * 50)
+# DF Creation with REGEX (10 marks)
+regex_student3 = r"\"[A-Z]+ (\/.*?) HTTP.* (\d+\.\d+\.\d+\.\d+) (\d+)"
+df_student3 = data.select(
+    regexp_extract('value', regex_student3, 1).alias('URL_Path'),
+    regexp_extract('value', regex_student3, 2).alias('IP_Address'),
+    regexp_extract('value', regex_student3, 3).alias('Response_Size')
+).cache()
+# Verify DataFrame creation
+print("\nVerifying Student 3 DataFrame structure:")
+df_student3.printSchema()
+print("\nSample data:")
+df_student3.show(5)
+
+# Student 4 (Sai Kishore Dodda u2773584)
+print("\nStudent 4 Analysis - Log Message Analysis")
+print("=" * 50)
+# DF Creation with REGEX (10 marks)
+regex_student4 = r"\".*\" (\d+) .*? \[(.*?)\] (.*)"
+df_student4 = data.select(
+    regexp_extract('value', regex_student4, 1).alias('HTTP_Status_Code'),
+    regexp_extract('value', regex_student4, 2).alias('Timestamp'),
+    regexp_extract('value', regex_student4, 3).alias('Log_Message')
+).cache()
+# Verify DataFrame creation
+print("\nVerifying Student 4 DataFrame structure:")
+df_student4.printSchema()
+print("\nSample data:")
+df_student4.show(5)
+
 # Advanced Analysis 1: Session Analysis (10 marks)
 session_analysis = df_student2 \
     .withColumn('timestamp', unix_timestamp('Timestamp', 'dd/MMM/yyyy:HH:mm:ss').cast('long')) \
@@ -172,7 +205,7 @@ response_analysis = df_student2 \
     .agg(
         count('*').alias('request_count'),
         avg('Response_Size').alias('avg_response_size'),
-        max('Response_Size').alias('max_response_size')
+        spark_max('Response_Size').alias('max_response_size')  # Use spark_max instead of max
     ).orderBy('Status_Code')
 
 print("\nResponse Size Analysis:")
