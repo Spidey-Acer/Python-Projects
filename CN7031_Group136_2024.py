@@ -146,44 +146,67 @@ df_student2 = data.select(
 ).cache()
 
 # Advanced Analysis 1: Session Analysis (10 marks)
-session_window = Window.orderBy('Timestamp').rangeBetween(-1800, 0)  # 30-minute sessions
 session_analysis = df_student2 \
-    .withColumn('timestamp', unix_timestamp('Timestamp', 'dd/MMM/yyyy:HH:mm:ss').cast('timestamp')) \
-    .withColumn('session_requests', count('*').over(session_window)) \
-    .withColumn('avg_response_size', avg('Response_Size').over(session_window))
+    .withColumn('timestamp', unix_timestamp('Timestamp', 'dd/MMM/yyyy:HH:mm:ss').cast('long')) \
+    .withColumn(
+        'session_requests',
+        count('*').over(
+            Window.orderBy('timestamp')
+            .rangeBetween(-1800, 0)  # 30-minute window in seconds
+        )
+    ) \
+    .withColumn(
+        'avg_response_size',
+        avg('Response_Size').over(
+            Window.orderBy('timestamp')
+            .rangeBetween(-1800, 0)
+        )
+    )
 
 print("\nSession Analysis Sample:")
 session_analysis.select('timestamp', 'session_requests', 'avg_response_size').show(5)
 
-# Advanced Analysis 2: Error Analysis (10 marks)
-error_analysis = df_student2 \
-    .filter(col('Status_Code') >= 400) \
+# Advanced Analysis 2: Response Size Analysis (10 marks)
+response_analysis = df_student2 \
     .groupBy('Status_Code') \
     .agg(
-        count('*').alias('error_count'),
-        avg('Response_Size').alias('avg_error_size')
+        count('*').alias('request_count'),
+        avg('Response_Size').alias('avg_response_size'),
+        max('Response_Size').alias('max_response_size')
     ).orderBy('Status_Code')
 
-print("\nError Analysis:")
-error_analysis.show()
+print("\nResponse Size Analysis:")
+response_analysis.show()
 
 # Visualization (10 marks)
-def create_error_visualization(df):
-    plt.figure(figsize=(12, 6))
+def create_response_visualization(df):
+    # Convert to pandas
     df_pandas = df.toPandas()
     
-    # Create error distribution plot
-    sns.barplot(data=df_pandas,
-               x='Status_Code',
-               y='error_count')
-    plt.title('Distribution of HTTP Error Codes')
+    # Convert Status_Code to string for better plotting
+    df_pandas['Status_Code'] = df_pandas['Status_Code'].astype(str)
+    
+    plt.figure(figsize=(12, 6))
+    
+    # Create bar plot
+    sns.barplot(
+        data=df_pandas,
+        x='Status_Code',
+        y='avg_response_size',
+        palette='viridis'
+    )
+    
+    plt.title('Average Response Size by Status Code')
+    plt.xlabel('HTTP Status Code')
+    plt.ylabel('Average Response Size (bytes)')
     plt.xticks(rotation=45)
     plt.tight_layout()
     
+    # Save visualization
     plt.savefig('student2_analysis.png')
     plt.close()
 
-create_error_visualization(error_analysis)
+create_response_visualization(response_analysis)
 
 # Task 2: Data Processing using PySpark RDD [40 marks]
 
