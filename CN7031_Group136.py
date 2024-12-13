@@ -1,5 +1,5 @@
 # Cell 1 [Markdown]:
-'''
+"""
 # Big Data Analytics [CN7031] CRWK 2024-25
 # Group ID: CN7031_Group136_2024
 
@@ -9,7 +9,7 @@
 4. Student 4: Sai Kishore Dodda u2773584@uel.ac.uk
 
 ---
-'''
+"""
 
 # Cell 2 [Markdown]:
 '''
@@ -18,8 +18,7 @@
 '''
 
 # Cell 3 [Code]:
-import subprocess
-subprocess.check_call(["pip3", "install", "pyspark"])
+!pip3 install pyspark
 
 # Cell 4 [Code]:
 # Import required libraries
@@ -30,6 +29,7 @@ findspark.init()
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
+from pyspark.sql.functions import max as spark_max
 from pyspark.sql.window import Window
 from pyspark.sql.types import *
 import pandas as pd
@@ -134,6 +134,9 @@ def create_traffic_visualization(df):
     # Convert window struct to datetime
     df_pandas['time'] = df_pandas['window'].apply(lambda x: x.start)
     
+    # Ensure request_count is numeric
+    df_pandas['request_count'] = pd.to_numeric(df_pandas['request_count'])
+    
     plt.figure(figsize=(12, 6))
     
     # Create time series plot with proper column names
@@ -234,42 +237,38 @@ response_analysis = df_student2 \
     .groupBy('Status_Code') \
     .agg(
         count('*').alias('request_count'),
-        avg('Response_Size').alias('avg_response_size'),
-        max('Response_Size').alias('max_response_size')  # Use max instead of spark_max
+        spark_max('Response_Size').alias('max_response_size')  # Use spark_max instead of max
     ).orderBy('Status_Code')
 
 print("\nResponse Size Analysis:")
 response_analysis.show()
 
 # Visualization (10 marks)
-def create_response_visualization(df):
-    # Convert to pandas
+def create_traffic_visualization(df):
+    # Convert to pandas and prepare data
     df_pandas = df.toPandas()
     
-    # Convert Status_Code to string for better plotting
-    df_pandas['Status_Code'] = df_pandas['Status_Code'].astype(str)
+    # Ensure the window column is properly handled
+    df_pandas['time'] = df_pandas['window'].apply(lambda x: x.start)
+    
+    # Ensure request_count is numeric
+    df_pandas['request_count'] = pd.to_numeric(df_pandas['request_count'])
     
     plt.figure(figsize=(12, 6))
     
-    # Create bar plot
-    sns.barplot(
-        data=df_pandas,
-        x='Status_Code',
-        y='avg_response_size',
-        palette='viridis'
-    )
+    # Create time series plot
+    plt.plot(df_pandas['time'], 
+            df_pandas['request_count'], 
+            marker='o')
     
-    plt.title('Average Response Size by Status Code')
-    plt.xlabel('HTTP Status Code')
-    plt.ylabel('Average Response Size (bytes)')
+    plt.title('Hourly Web Traffic Pattern')
+    plt.xlabel('Time')
+    plt.ylabel('Request Count')
     plt.xticks(rotation=45)
     plt.tight_layout()
     
-    # Save visualization
-    plt.savefig('student2_analysis.png')
+    plt.savefig('student1_analysis.png')
     plt.close()
-
-create_response_visualization(response_analysis)
 
 
 # Cell 10 [Markdown]:
@@ -568,5 +567,4 @@ def cleanup():
 
 # Final Cell [Code]:
 # Convert notebook to HTML
-# This command should be run in the terminal, not in the Python script
-# !jupyter nbconvert --to html CN7031_Group136_2024.ipynb
+!jupyter nbconvert --to html CN7031_Group136_2024.ipynb
