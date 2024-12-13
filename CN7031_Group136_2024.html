@@ -7480,7 +7480,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 1 [Markdown]:</span>
@@ -7495,14 +7495,62 @@ a.anchor-link {
 
 <span class="sd">---</span>
 <span class="sd">"""</span>
-
-<span class="c1"># Cell 2 [Markdown]:</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'\n# Big Data Analytics [CN7031] CRWK 2024-25\n# Group ID: CN7031_Group136_2024\n\n1. Student 1: Navya Athoti u2793047@uel.ac.uk\n2. Student 2: Phalguna Avalagunta u2811669@uel.ac.uk\n3. Student 3: Nikhil Sai Damera u2810262@uel.ac.uk\n4. Student 4: Sai Kishore Dodda u2773584@uel.ac.uk\n\n---\n'</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 2 [Markdown]:</span>
 <span class="sd">'''</span>
 <span class="sd"># Initiate and Configure Spark</span>
 <span class="sd">---</span>
 <span class="sd">'''</span>
-
-<span class="c1"># Cell 3 [Code]:</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'\n# Initiate and Configure Spark\n---\n'</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 3 [Code]:</span>
 <span class="o">!</span>pip3<span class="w"> </span>install<span class="w"> </span>pyspark
 
 <span class="c1"># Cell 4 [Code]:</span>
@@ -7525,44 +7573,83 @@ a.anchor-link {
 <span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="c1"># Initialize Spark</span>
+<span class="c1"># Initialize Spark session</span>
 <span class="k">def</span> <span class="nf">initialize_spark</span><span class="p">():</span>
-    <span class="c1"># Create SparkSession instead of SparkContext for better compatibility</span>
     <span class="n">spark</span> <span class="o">=</span> <span class="p">(</span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span>
             <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s1">'CN7031_Group136_2024'</span><span class="p">)</span>
             <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.driver.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span>
             <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.executor.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span>
             <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.sql.shuffle.partitions"</span><span class="p">,</span> <span class="s2">"100"</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.driver.host"</span><span class="p">,</span> <span class="s2">"localhost"</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">"local[*]"</span><span class="p">)</span>  <span class="c1"># This is important for local development</span>
+            <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">"local[*]"</span><span class="p">)</span>
             <span class="o">.</span><span class="n">getOrCreate</span><span class="p">())</span>
-    
-    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="p">,</span> <span class="n">spark</span>
+    <span class="k">return</span> <span class="n">spark</span>
 
-<span class="c1"># Initialize Spark</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">sc</span><span class="p">,</span> <span class="n">spark</span> <span class="o">=</span> <span class="n">initialize_spark</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Successfully initialized Spark"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error initializing Spark: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="c1"># Cell 5 [Markdown]:</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">initialize_spark</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Requirement already satisfied: pyspark in c:\users\hp\anaconda3\lib\site-packages (3.5.3)
+Requirement already satisfied: py4j==0.10.9.7 in c:\users\hp\anaconda3\lib\site-packages (from pyspark) (0.10.9.7)
+JAVA_HOME: C:\Program Files\Java\jdk-21
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 5 [Markdown]:</span>
 <span class="sd">'''</span>
 <span class="sd"># Load Unstructured Data</span>
 <span class="sd">---</span>
 <span class="sd">'''</span>
-
-<span class="c1"># Cell 6 [Code]:</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'\n# Load Unstructured Data\n---\n'</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 6 [Code]:</span>
 <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"web.log"</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Check if file exists</span>
@@ -7593,11 +7680,7 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Requirement already satisfied: pyspark in c:\users\hp\anaconda3\lib\site-packages (3.5.3)
-Requirement already satisfied: py4j==0.10.9.7 in c:\users\hp\anaconda3\lib\site-packages (from pyspark) (0.10.9.7)
-JAVA_HOME: C:\Program Files\Java\jdk-21
-Successfully initialized Spark
-Successfully loaded 3000000 log entries
+<pre>Successfully loaded 3000000 log entries
 </pre>
 </div>
 </div>
@@ -7608,7 +7691,7 @@ Successfully loaded 3000000 log entries
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 7 [Markdown]:</span>
@@ -7616,8 +7699,401 @@ Successfully loaded 3000000 log entries
 <span class="sd"># Task 1: Data Processing using PySpark DF [40 marks]</span>
 <span class="sd">---</span>
 <span class="sd">'''</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'\n# Task 1: Data Processing using PySpark DF [40 marks]\n---\n'</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 8 [Markdown]:</span>
+<span class="sd">'''</span>
+<span class="sd"># Student 1 (Navya Athoti u2793047)</span>
+<span class="sd">- DF Creation with REGEX (10 marks)</span>
+<span class="sd">- Two advanced DF Analysis (20 marks)</span>
+<span class="sd">- Utilize data visualization (10 marks)</span>
+<span class="sd">'''</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
+<pre>'\n# Student 1 (Navya Athoti u2793047)\n- DF Creation with REGEX (10 marks)\n- Two advanced DF Analysis (20 marks)\n- Utilize data visualization (10 marks)\n'</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 9 [Code]:</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 1 Analysis - Web Traffic Pattern Analysis"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
 
-<span class="c1"># Cell 8 [Markdown]:</span>
+<span class="c1"># DF Creation with REGEX (10 marks)</span>
+<span class="n">regex_student1</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"(\d+\.\d+\.\d+\.\d+) - - \[(.*?)\] </span><span class="se">\"</span><span class="s2">([A-Z]+)"</span>
+<span class="n">df_student1</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'IP_Address'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'HTTP_Method'</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>  <span class="c1"># Cache for performance</span>
+
+<span class="c1"># Validate extracted data</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Data Quality Check:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total Records: </span><span class="si">{</span><span class="n">df_student1</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Null Values: </span><span class="si">{</span><span class="n">df_student1</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s1">'IP_Address'</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># Advanced Analysis 1: Rolling Window Analysis (10 marks)</span>
+<span class="n">windowed_traffic</span> <span class="o">=</span> <span class="n">df_student1</span> \
+    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="n">unix_timestamp</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'dd/MMM/yyyy:HH:mm:ss'</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">))</span> \
+    <span class="o">.</span><span class="n">withWatermark</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="s1">'1 hour'</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+        <span class="n">window</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="s1">'1 hour'</span><span class="p">),</span>
+        <span class="s1">'IP_Address'</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">count</span><span class="p">(</span><span class="s1">'*'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'request_count'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">'window.start'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Hourly Traffic Pattern Sample:"</span><span class="p">)</span>
+<span class="n">windowed_traffic</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Advanced Analysis 2: HTTP Method Distribution (10 marks)</span>
+<span class="n">method_distribution</span> <span class="o">=</span> <span class="n">df_student1</span> \
+    <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">'HTTP_Method'</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">count</span><span class="p">(</span><span class="s1">'*'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'total_requests'</span><span class="p">),</span>
+        <span class="n">countDistinct</span><span class="p">(</span><span class="s1">'IP_Address'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'unique_ips'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s1">'total_requests'</span><span class="p">)</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">HTTP Method Distribution:"</span><span class="p">)</span>
+<span class="n">method_distribution</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Visualization (10 marks)</span>
+<span class="c1"># For Student 1's visualization</span>
+<span class="k">def</span> <span class="nf">create_traffic_visualization</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># Convert to pandas and prepare data</span>
+    <span class="n">df_pandas</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+    
+    <span class="c1"># Convert window struct to datetime</span>
+    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'window'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+    
+    <span class="c1"># Ensure request_count is numeric</span>
+    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">])</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    
+    <span class="c1"># Create time series plot with proper column names</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_pandas</span><span class="p">,</span> 
+                <span class="n">x</span><span class="o">=</span><span class="s1">'time'</span><span class="p">,</span> 
+                <span class="n">y</span><span class="o">=</span><span class="s1">'request_count'</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Hourly Web Traffic Pattern'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Time'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Request Count'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    
+    <span class="c1"># Save visualization</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'student1_analysis.png'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Modify the windowed traffic query</span>
+<span class="n">windowed_traffic</span> <span class="o">=</span> <span class="n">df_student1</span> \
+    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="n">unix_timestamp</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'dd/MMM/yyyy:HH:mm:ss'</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">))</span> \
+    <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+        <span class="n">window</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="s1">'1 hour'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">count</span><span class="p">(</span><span class="s1">'*'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'request_count'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">'window'</span><span class="p">)</span>
+
+<span class="c1"># Create visualization</span>
+<span class="n">create_traffic_visualization</span><span class="p">(</span><span class="n">windowed_traffic</span><span class="p">)</span>
+
+<span class="c1"># Student 2 (Phalguna Avalagunta u2811669)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 2 Analysis - Response Analysis"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># DF Creation with REGEX (10 marks)</span>
+<span class="n">regex_student2</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"</span><span class="se">\"</span><span class="s2">.*</span><span class="se">\"</span><span class="s2"> (\d+) (\d+) \[(.*?)\]"</span>
+<span class="n">df_student2</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'Status_Code'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'Response_Size'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+
+<span class="c1"># Student 3 (Nikhil Sai Damera u2810262)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 3 Analysis - URL Pattern Analysis"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="c1"># DF Creation with REGEX (10 marks)</span>
+<span class="n">regex_student3</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"</span><span class="se">\"</span><span class="s2">[A-Z]+ (\/.*?) HTTP.* (\d+\.\d+\.\d+\.\d+) (\d+)"</span>
+<span class="n">df_student3</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'URL_Path'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'IP_Address'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'Response_Size'</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+<span class="c1"># Verify DataFrame creation</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Verifying Student 3 DataFrame structure:"</span><span class="p">)</span>
+<span class="n">df_student3</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Sample data:"</span><span class="p">)</span>
+<span class="n">df_student3</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Student 4 (Sai Kishore Dodda u2773584)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 4 Analysis - Log Message Analysis"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="c1"># DF Creation with REGEX (10 marks)</span>
+<span class="n">regex_student4</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"</span><span class="se">\"</span><span class="s2">.*</span><span class="se">\"</span><span class="s2"> (\d+) .*? \[(.*?)\] (.*)"</span>
+<span class="n">df_student4</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'HTTP_Status_Code'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">),</span>
+    <span class="n">regexp_extract</span><span class="p">(</span><span class="s1">'value'</span><span class="p">,</span> <span class="n">regex_student4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'Log_Message'</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cache</span><span class="p">()</span>
+<span class="c1"># Verify DataFrame creation</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Verifying Student 4 DataFrame structure:"</span><span class="p">)</span>
+<span class="n">df_student4</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Sample data:"</span><span class="p">)</span>
+<span class="n">df_student4</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Advanced Analysis 1: Session Analysis (10 marks)</span>
+<span class="n">session_analysis</span> <span class="o">=</span> <span class="n">df_student2</span> \
+    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="n">unix_timestamp</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'dd/MMM/yyyy:HH:mm:ss'</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">'long'</span><span class="p">))</span> \
+    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
+        <span class="s1">'session_requests'</span><span class="p">,</span>
+        <span class="n">count</span><span class="p">(</span><span class="s1">'*'</span><span class="p">)</span><span class="o">.</span><span class="n">over</span><span class="p">(</span>
+            <span class="n">Window</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rangeBetween</span><span class="p">(</span><span class="o">-</span><span class="mi">1800</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># 30-minute window in seconds</span>
+        <span class="p">)</span>
+    <span class="p">)</span> \
+    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
+        <span class="s1">'avg_response_size'</span><span class="p">,</span>
+        <span class="n">avg</span><span class="p">(</span><span class="s1">'Response_Size'</span><span class="p">)</span><span class="o">.</span><span class="n">over</span><span class="p">(</span>
+            <span class="n">Window</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rangeBetween</span><span class="p">(</span><span class="o">-</span><span class="mi">1800</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Session Analysis Sample:"</span><span class="p">)</span>
+<span class="n">session_analysis</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="s1">'session_requests'</span><span class="p">,</span> <span class="s1">'avg_response_size'</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Advanced Analysis 2: Response Size Analysis (10 marks)</span>
+<span class="n">response_analysis</span> <span class="o">=</span> <span class="n">df_student2</span> \
+    <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">'Status_Code'</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">count</span><span class="p">(</span><span class="s1">'*'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'request_count'</span><span class="p">),</span>
+        <span class="n">spark_max</span><span class="p">(</span><span class="s1">'Response_Size'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'max_response_size'</span><span class="p">)</span>  <span class="c1"># Use spark_max instead of max</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">'Status_Code'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Response Size Analysis:"</span><span class="p">)</span>
+<span class="n">response_analysis</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Visualization (10 marks)</span>
+<span class="c1"># Visualization code for Student 1</span>
+<span class="k">def</span> <span class="nf">create_traffic_visualization</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="c1"># Convert to pandas and prepare data</span>
+    <span class="n">df_pandas</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+    
+    <span class="c1"># Convert window struct to datetime more safely</span>
+    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'window'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+    
+    <span class="c1"># Handle potential infinite values</span>
+    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
+    <span class="n">df_pandas</span> <span class="o">=</span> <span class="n">df_pandas</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    
+    <span class="c1"># Use plt instead of seaborn to avoid deprecation warning</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_pandas</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span> 
+            <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">],</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Hourly Web Traffic Pattern'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Time'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Request Count'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    
+    <span class="c1"># Save visualization with higher DPI for better quality</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'student1_analysis.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Make sure to add these imports at the top of your notebook</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Modify the windowed traffic query to ensure clean data</span>
+<span class="n">windowed_traffic</span> <span class="o">=</span> <span class="n">df_student1</span> \
+    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="n">unix_timestamp</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'dd/MMM/yyyy:HH:mm:ss'</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">))</span> \
+    <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+        <span class="n">window</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="s1">'1 hour'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">count</span><span class="p">(</span><span class="s1">'*'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'request_count'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">'window'</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">na</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Fill null values with 0</span>
+
+<span class="c1"># Create visualization</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">create_traffic_visualization</span><span class="p">(</span><span class="n">windowed_traffic</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Visualization created successfully!"</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error creating visualization: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Student 1 Analysis - Web Traffic Pattern Analysis
+==================================================
+
+Data Quality Check:
+Total Records: 3000000
+Null Values: 0
+
+Hourly Traffic Pattern Sample:
++--------------------+--------------+-------------+
+|              window|    IP_Address|request_count|
++--------------------+--------------+-------------+
+|{2022-01-01 00:00...| 169.29.157.48|            1|
+|{2022-01-01 00:00...|213.11.169.161|            1|
+|{2022-01-01 00:00...|122.246.208.74|            1|
+|{2022-01-01 00:00...|  207.75.52.45|            1|
+|{2022-01-01 00:00...|   95.4.86.192|            1|
++--------------------+--------------+-------------+
+only showing top 5 rows
+
+
+HTTP Method Distribution:
++-----------+--------------+----------+
+|HTTP_Method|total_requests|unique_ips|
++-----------+--------------+----------+
+|        GET|       1001043|   1000932|
+|       POST|       1000505|   1000390|
+|        PUT|        998452|    998328|
++-----------+--------------+----------+
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>c:\Users\HP\anaconda3\Lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+c:\Users\HP\anaconda3\Lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Student 2 Analysis - Response Analysis
+==================================================
+
+Student 3 Analysis - URL Pattern Analysis
+==================================================
+
+Verifying Student 3 DataFrame structure:
+root
+ |-- URL_Path: string (nullable = true)
+ |-- IP_Address: string (nullable = true)
+ |-- Response_Size: string (nullable = true)
+
+
+Sample data:
++--------+----------+-------------+
+|URL_Path|IP_Address|Response_Size|
++--------+----------+-------------+
+|        |          |             |
+|        |          |             |
+|        |          |             |
+|        |          |             |
+|        |          |             |
++--------+----------+-------------+
+only showing top 5 rows
+
+
+Student 4 Analysis - Log Message Analysis
+==================================================
+
+Verifying Student 4 DataFrame structure:
+root
+ |-- HTTP_Status_Code: string (nullable = true)
+ |-- Timestamp: string (nullable = true)
+ |-- Log_Message: string (nullable = true)
+
+
+Sample data:
++----------------+---------+-----------+
+|HTTP_Status_Code|Timestamp|Log_Message|
++----------------+---------+-----------+
+|                |         |           |
+|                |         |           |
+|                |         |           |
+|                |         |           |
+|                |         |           |
++----------------+---------+-----------+
+only showing top 5 rows
+
+
+Session Analysis Sample:
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 8 [Markdown]:</span>
 <span class="sd">'''</span>
 <span class="sd"># Student 1 (Navya Athoti u2793047)</span>
 <span class="sd">- DF Creation with REGEX (10 marks)</span>
@@ -7786,170 +8262,71 @@ Successfully loaded 3000000 log entries
 <span class="n">response_analysis</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="c1"># Visualization (10 marks)</span>
+<span class="c1"># Visualization code for Student 1</span>
 <span class="k">def</span> <span class="nf">create_traffic_visualization</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
     <span class="c1"># Convert to pandas and prepare data</span>
     <span class="n">df_pandas</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
     
-    <span class="c1"># Ensure the window column is properly handled</span>
-    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'window'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+    <span class="c1"># Convert window struct to datetime more safely</span>
+    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'window'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
     
-    <span class="c1"># Ensure request_count is numeric</span>
-    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">])</span>
+    <span class="c1"># Handle potential infinite values</span>
+    <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
+    <span class="n">df_pandas</span> <span class="o">=</span> <span class="n">df_pandas</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
     
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
     
-    <span class="c1"># Create time series plot</span>
+    <span class="c1"># Use plt instead of seaborn to avoid deprecation warning</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_pandas</span><span class="p">[</span><span class="s1">'time'</span><span class="p">],</span> 
-            <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">],</span> 
-            <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span>
+            <span class="n">df_pandas</span><span class="p">[</span><span class="s1">'request_count'</span><span class="p">],</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
     
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Hourly Web Traffic Pattern'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Time'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Request Count'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Hourly Web Traffic Pattern'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Time'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Request Count'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'student1_analysis.png'</span><span class="p">)</span>
+    <span class="c1"># Save visualization with higher DPI for better quality</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'student1_analysis.png'</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">'tight'</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Make sure to add these imports at the top of your notebook</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Modify the windowed traffic query to ensure clean data</span>
+<span class="n">windowed_traffic</span> <span class="o">=</span> <span class="n">df_student1</span> \
+    <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="n">unix_timestamp</span><span class="p">(</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'dd/MMM/yyyy:HH:mm:ss'</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">))</span> \
+    <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+        <span class="n">window</span><span class="p">(</span><span class="s1">'timestamp'</span><span class="p">,</span> <span class="s1">'1 hour'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">count</span><span class="p">(</span><span class="s1">'*'</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'request_count'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">'window'</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">na</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Fill null values with 0</span>
+
+<span class="c1"># Create visualization</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">create_traffic_visualization</span><span class="p">(</span><span class="n">windowed_traffic</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Visualization created successfully!"</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error creating visualization: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-Student 1 Analysis - Web Traffic Pattern Analysis
-==================================================
-
-Data Quality Check:
-Total Records: 3000000
-Null Values: 0
-
-Hourly Traffic Pattern Sample:
-+--------------------+---------------+-------------+
-|              window|     IP_Address|request_count|
-+--------------------+---------------+-------------+
-|{2022-01-01 00:00...|   5.252.83.212|            1|
-|{2022-01-01 00:00...|228.230.206.189|            1|
-|{2022-01-01 00:00...|  169.29.157.48|            1|
-|{2022-01-01 00:00...|  78.28.179.123|            1|
-|{2022-01-01 00:00...|    95.4.86.192|            1|
-+--------------------+---------------+-------------+
-only showing top 5 rows
-
-
-HTTP Method Distribution:
-+-----------+--------------+----------+
-|HTTP_Method|total_requests|unique_ips|
-+-----------+--------------+----------+
-|        GET|       1001043|   1000932|
-|       POST|       1000505|   1000390|
-|        PUT|        998452|    998328|
-+-----------+--------------+----------+
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>c:\Users\HP\anaconda3\Lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context('mode.use_inf_as_na', True):
-c:\Users\HP\anaconda3\Lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
-  with pd.option_context('mode.use_inf_as_na', True):
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-Student 2 Analysis - Response Analysis
-==================================================
-
-Student 3 Analysis - URL Pattern Analysis
-==================================================
-
-Verifying Student 3 DataFrame structure:
-root
- |-- URL_Path: string (nullable = true)
- |-- IP_Address: string (nullable = true)
- |-- Response_Size: string (nullable = true)
-
-
-Sample data:
-+--------+----------+-------------+
-|URL_Path|IP_Address|Response_Size|
-+--------+----------+-------------+
-|        |          |             |
-|        |          |             |
-|        |          |             |
-|        |          |             |
-|        |          |             |
-+--------+----------+-------------+
-only showing top 5 rows
-
-
-Student 4 Analysis - Log Message Analysis
-==================================================
-
-Verifying Student 4 DataFrame structure:
-root
- |-- HTTP_Status_Code: string (nullable = true)
- |-- Timestamp: string (nullable = true)
- |-- Log_Message: string (nullable = true)
-
-
-Sample data:
-+----------------+---------+-----------+
-|HTTP_Status_Code|Timestamp|Log_Message|
-+----------------+---------+-----------+
-|                |         |           |
-|                |         |           |
-|                |         |           |
-|                |         |           |
-|                |         |           |
-+----------------+---------+-----------+
-only showing top 5 rows
-
-
-Session Analysis Sample:
-+---------+----------------+-----------------+
-|timestamp|session_requests|avg_response_size|
-+---------+----------------+-----------------+
-|     NULL|         3000000|             NULL|
-|     NULL|         3000000|             NULL|
-|     NULL|         3000000|             NULL|
-|     NULL|         3000000|             NULL|
-|     NULL|         3000000|             NULL|
-+---------+----------------+-----------------+
-only showing top 5 rows
-
-
-Response Size Analysis:
-+-----------+-------------+-----------------+
-|Status_Code|request_count|max_response_size|
-+-----------+-------------+-----------------+
-|           |      3000000|                 |
-+-----------+-------------+-----------------+
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 10 [Markdown]:</span>
@@ -8013,48 +8390,12 @@ Response Size Analysis:
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-Student 1 RDD Analysis - Traffic Pattern Mining
-==================================================
-
-Hourly Traffic Sample:
-01/Apr/2022:0: 1869 requests
-01/Apr/2022:1: 1839 requests
-01/Apr/2022:2: 729 requests
-01/Apr/2023:0: 1889 requests
-01/Apr/2023:1: 1879 requests
-
-IP Pattern Analysis Sample:
-
-IP: 220.182.78.75
-Total Requests: 1
-Method Distribution: {'GET': 1}
-
-IP: 143.238.50.180
-Total Requests: 1
-Method Distribution: {'POST': 1}
-
-IP: 155.22.118.135
-Total Requests: 1
-Method Distribution: {'GET': 1}
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 11 [Markdown]:</span>
@@ -8298,68 +8639,6 @@ Method Distribution: {'GET': 1}
 <span class="c1"># Convert notebook to HTML</span>
 <span class="o">!</span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span>CN7031_Group136_2024.ipynb
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-Student 1 Optimization Analysis
-==================================================
-
-Partitioning Strategy Evaluation
-Baseline execution time: 2.35 seconds
-Optimized execution time: 2.42 seconds
-Performance improvement: -2.97%
-
-Caching Strategy Evaluation
-Uncached execution time: 6.62 seconds
-Cached execution time: 2.74 seconds
-Caching improvement: 58.68%
-
-Student 2 Optimization Analysis
-==================================================
-
-Caching Strategy Evaluation
-Uncached execution time: 9.98 seconds
-Cached execution time: 0.43 seconds
-Caching improvement: 95.73%
-
-Student 3 Optimization Analysis
-==================================================
-
-Partitioning Strategy Evaluation
-Baseline execution time: 0.19 seconds
-Optimized execution time: 1.18 seconds
-Performance improvement: -533.41%
-
-Student 4 Optimization Analysis
-==================================================
-
-Caching Strategy Evaluation
-Uncached execution time: 7.09 seconds
-Cached execution time: 0.19 seconds
-Caching improvement: 97.39%
-
-Partitioning Strategy Evaluation
-Baseline execution time: 0.19 seconds
-Optimized execution time: 0.94 seconds
-Performance improvement: -401.19%
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>[NbConvertApp] Converting notebook CN7031_Group136_2024.ipynb to html
-[NbConvertApp] Writing 362882 bytes to CN7031_Group136_2024.html
-</pre>
 </div>
 </div>
 </div>
