@@ -18,7 +18,8 @@
 '''
 
 # Cell 3 [Code]:
-!pip3 install pyspark
+import subprocess
+subprocess.check_call(["pip3", "install", "pyspark"])
 
 # Cell 4 [Code]:
 # Import required libraries
@@ -234,7 +235,7 @@ response_analysis = df_student2 \
     .agg(
         count('*').alias('request_count'),
         avg('Response_Size').alias('avg_response_size'),
-        spark_max('Response_Size').alias('max_response_size')  # Use spark_max instead of max
+        max('Response_Size').alias('max_response_size')  # Use max instead of spark_max
     ).orderBy('Status_Code')
 
 print("\nResponse Size Analysis:")
@@ -567,4 +568,5 @@ def cleanup():
 
 # Final Cell [Code]:
 # Convert notebook to HTML
-!jupyter nbconvert --to html CN7031_Group136_2024.ipynb
+# This command should be run in the terminal, not in the Python script
+# !jupyter nbconvert --to html CN7031_Group136_2024.ipynb

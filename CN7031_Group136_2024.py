@@ -1,52 +1,44 @@
+# Cell 1 [Markdown]:
+'''
 # Big Data Analytics [CN7031] CRWK 2024-25
 # Group ID: CN7031_Group136_2024
 
-# Student Information:
-# 1. Student 1: Navya Athoti u2793047@uel.ac.uk
-# 2. Student 2: Phalguna Avalagunta u2811669@uel.ac.uk
-# 3. Student 3: Nikhil Sai Damera u2810262@uel.ac.uk
-# 4. Student 4: Sai Kishore Dodda u2773584@uel.ac.uk3
+1. Student 1: Navya Athoti u2793047@uel.ac.uk
+2. Student 2: Phalguna Avalagunta u2811669@uel.ac.uk
+3. Student 3: Nikhil Sai Damera u2810262@uel.ac.uk
+4. Student 4: Sai Kishore Dodda u2773584@uel.ac.uk
 
+---
+'''
+
+# Cell 2 [Markdown]:
+'''
+# Initiate and Configure Spark
+---
+'''
+
+# Cell 3 [Code]:
+!pip3 install pyspark
+
+# Cell 4 [Code]:
 # Import required libraries
 import os
-
 import findspark
 findspark.init()
 
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import (
-    regexp_extract, col, window, count, avg, sum, 
-    unix_timestamp, hour, date_format, countDistinct
-)
+from pyspark.sql.functions import *
+from pyspark.sql.functions import max as spark_max
 from pyspark.sql.window import Window
 from pyspark.sql.types import *
-from pyspark.sql.functions import max as spark_max # Avoid conflict with Python's max function
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import time
 from datetime import datetime
 
-# Replace the initialize_spark() function with this:
-def initialize_spark():
-    conf = SparkConf().setAppName('CN7031_Group136_2024') \
-        .set("spark.driver.memory", "4g") \
-        .set("spark.executor.memory", "4g") \
-        .set("spark.sql.shuffle.partitions", "100") \
-        .set("spark.sql.warehouse.dir", "spark-warehouse") \
-        .set("spark.sql.catalogImplementation", "hive") \
-        .set("spark.sql.hive.metastore.version", "2.3.9")
-    
-    sc = SparkContext(conf=conf)
-    spark = SparkSession.builder \
-        .appName("CN7031_Group136_2024") \
-        .config(conf=conf) \
-        .enableHiveSupport() \
-        .getOrCreate()
-    return sc, spark
-
-# Initialize Spark session with optimized configuration
+# Initialize Spark
 def initialize_spark():
     conf = SparkConf().setAppName('CN7031_Group136_2024') \
         .set("spark.driver.memory", "4g") \
@@ -59,7 +51,13 @@ def initialize_spark():
 
 sc, spark = initialize_spark()
 
-# Load and validate the dataset
+# Cell 5 [Markdown]:
+'''
+# Load Unstructured Data
+---
+'''
+
+# Cell 6 [Code]:
 def load_data(spark, path="web.log"):
     try:
         data = spark.read.text(path)
@@ -69,11 +67,23 @@ def load_data(spark, path="web.log"):
         print(f"Error loading data: {str(e)}")
         raise
 
-data = load_data(spark, path="web.log")
+data = load_data(spark)
 
+# Cell 7 [Markdown]:
+'''
 # Task 1: Data Processing using PySpark DF [40 marks]
+---
+'''
 
+# Cell 8 [Markdown]:
+'''
 # Student 1 (Navya Athoti u2793047)
+- DF Creation with REGEX (10 marks)
+- Two advanced DF Analysis (20 marks)
+- Utilize data visualization (10 marks)
+'''
+
+# Cell 9 [Code]:
 print("\nStudent 1 Analysis - Web Traffic Pattern Analysis")
 print("=" * 50)
 
@@ -224,7 +234,6 @@ response_analysis = df_student2 \
     .groupBy('Status_Code') \
     .agg(
         count('*').alias('request_count'),
-        avg('Response_Size').alias('avg_response_size'),
         spark_max('Response_Size').alias('max_response_size')  # Use spark_max instead of max
     ).orderBy('Status_Code')
 
@@ -245,13 +254,13 @@ def create_response_visualization(df):
     sns.barplot(
         data=df_pandas,
         x='Status_Code',
-        y='avg_response_size',
+        y='max_response_size',
         palette='viridis'
     )
     
-    plt.title('Average Response Size by Status Code')
+    plt.title('Max Response Size by Status Code')
     plt.xlabel('HTTP Status Code')
-    plt.ylabel('Average Response Size (bytes)')
+    plt.ylabel('Max Response Size (bytes)')
     plt.xticks(rotation=45)
     plt.tight_layout()
     
@@ -260,6 +269,13 @@ def create_response_visualization(df):
     plt.close()
 
 create_response_visualization(response_analysis)
+
+
+# Cell 10 [Markdown]:
+'''
+# Task 2: Data Processing using PySpark RDD [40 marks]
+---
+'''
 
 # Task 2: Data Processing using PySpark RDD [40 marks]
 
@@ -312,6 +328,11 @@ for ip, stats in ip_patterns.take(3):
     print(f"Total Requests: {stats['total_requests']}")
     print("Method Distribution:", stats['method_distribution'])
 
+# Cell 11 [Markdown]:
+'''
+# Task 3: Optimization and LSEPI Considerations [10 marks]
+---
+'''
 
 # Task 3: Optimization and LSEPI Considerations [10 marks]
 
@@ -543,3 +564,7 @@ def cleanup():
         print("\nSpark session successfully closed")
     except Exception as e:
         print(f"Error during cleanup: {str(e)}")
+
+# Final Cell [Code]:
+# Convert notebook to HTML
+!jupyter nbconvert --to html CN7031_Group136_2024.ipynb
