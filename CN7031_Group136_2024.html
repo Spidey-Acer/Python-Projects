@@ -7480,7 +7480,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 1 [Markdown]:</span>
@@ -7508,6 +7508,13 @@ a.anchor-link {
 <span class="c1"># Cell 4 [Code]:</span>
 <span class="c1"># Import required libraries</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"JAVA_HOME: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'JAVA_HOME'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Not set'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c1"># environment variables</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PYSPARK_PYTHON'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PYSPARK_DRIVER_PYTHON'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
+
 <span class="kn">import</span> <span class="nn">findspark</span>
 <span class="n">findspark</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
@@ -7523,18 +7530,31 @@ a.anchor-link {
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
 <span class="c1"># Initialize Spark</span>
 <span class="k">def</span> <span class="nf">initialize_spark</span><span class="p">():</span>
-    <span class="n">conf</span> <span class="o">=</span> <span class="n">SparkConf</span><span class="p">()</span><span class="o">.</span><span class="n">setAppName</span><span class="p">(</span><span class="s1">'CN7031_Group136_2024'</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"spark.driver.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"spark.executor.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span> \
-        <span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">"spark.sql.shuffle.partitions"</span><span class="p">,</span> <span class="s2">"100"</span><span class="p">)</span>
+    <span class="c1"># Create SparkSession instead of SparkContext for better compatibility</span>
+    <span class="n">spark</span> <span class="o">=</span> <span class="p">(</span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span>
+            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s1">'CN7031_Group136_2024'</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.driver.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.executor.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.sql.shuffle.partitions"</span><span class="p">,</span> <span class="s2">"100"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.driver.host"</span><span class="p">,</span> <span class="s2">"localhost"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">"local[*]"</span><span class="p">)</span>  <span class="c1"># This is important for local development</span>
+            <span class="o">.</span><span class="n">getOrCreate</span><span class="p">())</span>
     
-    <span class="n">sc</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">(</span><span class="n">conf</span><span class="o">=</span><span class="n">conf</span><span class="p">)</span>
-    <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">sc</span><span class="p">,</span> <span class="n">spark</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="p">,</span> <span class="n">spark</span>
 
-<span class="n">sc</span><span class="p">,</span> <span class="n">spark</span> <span class="o">=</span> <span class="n">initialize_spark</span><span class="p">()</span>
+<span class="c1"># Initialize Spark</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">sc</span><span class="p">,</span> <span class="n">spark</span> <span class="o">=</span> <span class="n">initialize_spark</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Successfully initialized Spark"</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error initializing Spark: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Cell 5 [Markdown]:</span>
 <span class="sd">'''</span>
@@ -7545,6 +7565,10 @@ a.anchor-link {
 <span class="c1"># Cell 6 [Code]:</span>
 <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"web.log"</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Check if file exists</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"File not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            
         <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Successfully loaded </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="si">}</span><span class="s2"> log entries"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span>
@@ -7552,9 +7576,42 @@ a.anchor-link {
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error loading data: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">raise</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
-
-<span class="c1"># Cell 7 [Markdown]:</span>
+<span class="c1"># Test the data loading</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Failed to load data: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Requirement already satisfied: pyspark in c:\users\hp\anaconda3\lib\site-packages (3.5.3)
+Requirement already satisfied: py4j==0.10.9.7 in c:\users\hp\anaconda3\lib\site-packages (from pyspark) (0.10.9.7)
+JAVA_HOME: C:\Program Files\Java\jdk-21
+Successfully initialized Spark
+Successfully loaded 3000000 log entries
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 7 [Markdown]:</span>
 <span class="sd">'''</span>
 <span class="sd"># Task 1: Data Processing using PySpark DF [40 marks]</span>
 <span class="sd">---</span>
@@ -7754,9 +7811,148 @@ a.anchor-link {
     
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'student1_analysis.png'</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Student 1 Analysis - Web Traffic Pattern Analysis
+==================================================
+
+Data Quality Check:
+Total Records: 3000000
+Null Values: 0
+
+Hourly Traffic Pattern Sample:
++--------------------+---------------+-------------+
+|              window|     IP_Address|request_count|
++--------------------+---------------+-------------+
+|{2022-01-01 00:00...|   5.252.83.212|            1|
+|{2022-01-01 00:00...|228.230.206.189|            1|
+|{2022-01-01 00:00...|  169.29.157.48|            1|
+|{2022-01-01 00:00...|  78.28.179.123|            1|
+|{2022-01-01 00:00...|    95.4.86.192|            1|
++--------------------+---------------+-------------+
+only showing top 5 rows
 
 
-<span class="c1"># Cell 10 [Markdown]:</span>
+HTTP Method Distribution:
++-----------+--------------+----------+
+|HTTP_Method|total_requests|unique_ips|
++-----------+--------------+----------+
+|        GET|       1001043|   1000932|
+|       POST|       1000505|   1000390|
+|        PUT|        998452|    998328|
++-----------+--------------+----------+
+
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>c:\Users\HP\anaconda3\Lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+c:\Users\HP\anaconda3\Lib\site-packages\seaborn\_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Student 2 Analysis - Response Analysis
+==================================================
+
+Student 3 Analysis - URL Pattern Analysis
+==================================================
+
+Verifying Student 3 DataFrame structure:
+root
+ |-- URL_Path: string (nullable = true)
+ |-- IP_Address: string (nullable = true)
+ |-- Response_Size: string (nullable = true)
+
+
+Sample data:
++--------+----------+-------------+
+|URL_Path|IP_Address|Response_Size|
++--------+----------+-------------+
+|        |          |             |
+|        |          |             |
+|        |          |             |
+|        |          |             |
+|        |          |             |
++--------+----------+-------------+
+only showing top 5 rows
+
+
+Student 4 Analysis - Log Message Analysis
+==================================================
+
+Verifying Student 4 DataFrame structure:
+root
+ |-- HTTP_Status_Code: string (nullable = true)
+ |-- Timestamp: string (nullable = true)
+ |-- Log_Message: string (nullable = true)
+
+
+Sample data:
++----------------+---------+-----------+
+|HTTP_Status_Code|Timestamp|Log_Message|
++----------------+---------+-----------+
+|                |         |           |
+|                |         |           |
+|                |         |           |
+|                |         |           |
+|                |         |           |
++----------------+---------+-----------+
+only showing top 5 rows
+
+
+Session Analysis Sample:
++---------+----------------+-----------------+
+|timestamp|session_requests|avg_response_size|
++---------+----------------+-----------------+
+|     NULL|         3000000|             NULL|
+|     NULL|         3000000|             NULL|
+|     NULL|         3000000|             NULL|
+|     NULL|         3000000|             NULL|
+|     NULL|         3000000|             NULL|
++---------+----------------+-----------------+
+only showing top 5 rows
+
+
+Response Size Analysis:
++-----------+-------------+-----------------+
+|Status_Code|request_count|max_response_size|
++-----------+-------------+-----------------+
+|           |      3000000|                 |
++-----------+-------------+-----------------+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 10 [Markdown]:</span>
 <span class="sd">'''</span>
 <span class="sd"># Task 2: Data Processing using PySpark RDD [40 marks]</span>
 <span class="sd">---</span>
@@ -7812,8 +8008,56 @@ a.anchor-link {
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">IP: </span><span class="si">{</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total Requests: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">'total_requests'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Method Distribution:"</span><span class="p">,</span> <span class="n">stats</span><span class="p">[</span><span class="s1">'method_distribution'</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Student 1 RDD Analysis - Traffic Pattern Mining
+==================================================
 
-<span class="c1"># Cell 11 [Markdown]:</span>
+Hourly Traffic Sample:
+01/Apr/2022:0: 1869 requests
+01/Apr/2022:1: 1839 requests
+01/Apr/2022:2: 729 requests
+01/Apr/2023:0: 1889 requests
+01/Apr/2023:1: 1879 requests
+
+IP Pattern Analysis Sample:
+
+IP: 220.182.78.75
+Total Requests: 1
+Method Distribution: {'GET': 1}
+
+IP: 143.238.50.180
+Total Requests: 1
+Method Distribution: {'POST': 1}
+
+IP: 155.22.118.135
+Total Requests: 1
+Method Distribution: {'GET': 1}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Cell 11 [Markdown]:</span>
 <span class="sd">'''</span>
 <span class="sd"># Task 3: Optimization and LSEPI Considerations [10 marks]</span>
 <span class="sd">---</span>
@@ -8065,68 +8309,57 @@ a.anchor-link {
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Requirement already satisfied: pyspark in c:\users\hp\anaconda3\lib\site-packages (3.5.3)
-Requirement already satisfied: py4j==0.10.9.7 in c:\users\hp\anaconda3\lib\site-packages (from pyspark) (0.10.9.7)
-Successfully loaded 3000000 log entries
-
-Student 1 Analysis - Web Traffic Pattern Analysis
+<pre>
+Student 1 Optimization Analysis
 ==================================================
 
-Data Quality Check:
-Total Records: 3000000
-Null Values: 0
+Partitioning Strategy Evaluation
+Baseline execution time: 2.35 seconds
+Optimized execution time: 2.42 seconds
+Performance improvement: -2.97%
 
-Hourly Traffic Pattern Sample:
-+--------------------+---------------+-------------+
-|              window|     IP_Address|request_count|
-+--------------------+---------------+-------------+
-|{2022-01-01 00:00...|   5.252.83.212|            1|
-|{2022-01-01 00:00...|  38.254.36.191|            1|
-|{2022-01-01 00:00...| 213.11.169.161|            1|
-|{2022-01-01 00:00...|149.176.255.245|            1|
-|{2022-01-01 00:00...| 122.246.208.74|            1|
-+--------------------+---------------+-------------+
-only showing top 5 rows
+Caching Strategy Evaluation
+Uncached execution time: 6.62 seconds
+Cached execution time: 2.74 seconds
+Caching improvement: 58.68%
 
+Student 2 Optimization Analysis
+==================================================
 
-HTTP Method Distribution:
-+-----------+--------------+----------+
-|HTTP_Method|total_requests|unique_ips|
-+-----------+--------------+----------+
-|        GET|       1001043|   1000932|
-|       POST|       1000505|   1000390|
-|        PUT|        998452|    998328|
-+-----------+--------------+----------+
+Caching Strategy Evaluation
+Uncached execution time: 9.98 seconds
+Cached execution time: 0.43 seconds
+Caching improvement: 95.73%
 
+Student 3 Optimization Analysis
+==================================================
+
+Partitioning Strategy Evaluation
+Baseline execution time: 0.19 seconds
+Optimized execution time: 1.18 seconds
+Performance improvement: -533.41%
+
+Student 4 Optimization Analysis
+==================================================
+
+Caching Strategy Evaluation
+Uncached execution time: 7.09 seconds
+Cached execution time: 0.19 seconds
+Caching improvement: 97.39%
+
+Partitioning Strategy Evaluation
+Baseline execution time: 0.19 seconds
+Optimized execution time: 0.94 seconds
+Performance improvement: -401.19%
 </pre>
 </div>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
-</pre></div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>[NbConvertApp] Converting notebook CN7031_Group136_2024.ipynb to html
+[NbConvertApp] Writing 362882 bytes to CN7031_Group136_2024.html
+</pre>
 </div>
 </div>
 </div>
