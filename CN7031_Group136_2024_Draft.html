@@ -7699,89 +7699,80 @@ JAVA_HOME: C:\Program Files\Java\jdk-21
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Common-Imports-and-Spark-Initialization">Common Imports and Spark Initialization<a class="anchor-link" href="#Common-Imports-and-Spark-Initialization">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Common imports and Spark initialization for all students</span>
-<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">TimestampType</span><span class="p">,</span> <span class="n">IntegerType</span>
 <span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">regexp_extract</span><span class="p">,</span> <span class="n">to_timestamp</span><span class="p">,</span> <span class="n">col</span>
 
+<span class="c1"># Initialize Spark Session</span>
 <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
     <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">"Log Analysis"</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 
 <span class="c1"># Read the log file</span>
 <span class="n">logs_df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">"web.log"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Student-1:-Navya-Athoti---IP-Address,-Timestamp,-and-HTTP-Method-Analysis">Student 1: Navya Athoti - IP Address, Timestamp, and HTTP Method Analysis<a class="anchor-link" href="#Student-1:-Navya-Athoti---IP-Address,-Timestamp,-and-HTTP-Method-Analysis">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [30]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Student 1: Navya Athoti - Modified to include url_path</span>
+<span class="k">def</span> <span class="nf">create_student1_df</span><span class="p">():</span>
+    <span class="n">student1_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"(\d+\.\d+\.\d+\.\d+)"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"ip_address"</span><span class="p">),</span>
+        <span class="n">to_timestamp</span><span class="p">(</span>
+            <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"\[(.*?)\]"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s2">"dd/MMM/yyyy:HH:mm:ss"</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"timestamp"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'"(\w+)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"http_method"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'"[A-Z]+ (.*?) HTTP'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"url_path"</span><span class="p">)</span>  <span class="c1"># Added this line</span>
+    <span class="p">)</span>
+    <span class="n">student1_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student1_logs"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">student1_df</span>
 
-<span class="c1"># Student 1 (Navya A) - IP Address, Timestamp, HTTP Method</span>
-<span class="n">student1_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"(\d+\.\d+\.\d+\.\d+)"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"ip_address"</span><span class="p">),</span>
-    <span class="n">to_timestamp</span><span class="p">(</span>
-        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"\[(.*?)\]"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">"dd/MMM/yyyy:HH:mm:ss"</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"timestamp"</span><span class="p">),</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'"(\w+)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"http_method"</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="c1"># Create DataFrame</span>
+<span class="n">student1_df</span> <span class="o">=</span> <span class="n">create_student1_df</span><span class="p">()</span>
 
-<span class="c1"># Student 2 - HTTP Status Code, Response Size, Timestamp</span>
-<span class="n">student2_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" (\d</span><span class="si">{3}</span><span class="s1">)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">),</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" \d</span><span class="si">{3}</span><span class="s1"> (\d+)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">IntegerType</span><span class="p">())</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"response_size"</span><span class="p">),</span>
-    <span class="n">to_timestamp</span><span class="p">(</span>
-        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"\[(.*?)\]"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">"dd/MMM/yyyy:HH:mm:ss"</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"timestamp"</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="c1"># Student 3 - URL Path, IP Address, Response Size</span>
-<span class="n">student3_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'"[A-Z]+ (.*?) HTTP'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"url_path"</span><span class="p">),</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"(\d+\.\d+\.\d+\.\d+)"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"ip_address"</span><span class="p">),</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" \d</span><span class="si">{3}</span><span class="s1"> (\d+)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">IntegerType</span><span class="p">())</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"response_size"</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="c1"># Student 4 - Log Message, HTTP Status Code, Timestamp</span>
-<span class="n">student4_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'"(.*?)"'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"log_message"</span><span class="p">),</span>
-    <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" (\d</span><span class="si">{3}</span><span class="s1">)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">),</span>
-    <span class="n">to_timestamp</span><span class="p">(</span>
-        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"\[(.*?)\]"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s2">"dd/MMM/yyyy:HH:mm:ss"</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"timestamp"</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="c1"># Function to validate and show results for each student's DataFrame</span>
-<span class="k">def</span> <span class="nf">validate_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">student_num</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student </span><span class="si">{</span><span class="n">student_num</span><span class="si">}</span><span class="s2"> DataFrame Schema:"</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student </span><span class="si">{</span><span class="n">student_num</span><span class="si">}</span><span class="s2"> Sample Data:"</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    
-    <span class="c1"># Count non-null values for each column</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student </span><span class="si">{</span><span class="n">student_num</span><span class="si">}</span><span class="s2"> Validation Counts:"</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">([</span>
-        <span class="nb">sum</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">isNotNull</span><span class="p">()</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">"int"</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">_count"</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
-    <span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># Validate each student's DataFrame</span>
-<span class="n">validate_dataframe</span><span class="p">(</span><span class="n">student1_df</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">validate_dataframe</span><span class="p">(</span><span class="n">student2_df</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">validate_dataframe</span><span class="p">(</span><span class="n">student3_df</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">validate_dataframe</span><span class="p">(</span><span class="n">student4_df</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-
-<span class="c1"># Register DataFrames as views for SQL queries later</span>
-<span class="n">student1_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student1_logs"</span><span class="p">)</span>
-<span class="n">student2_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student2_logs"</span><span class="p">)</span>
-<span class="n">student3_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student3_logs"</span><span class="p">)</span>
-<span class="n">student4_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student4_logs"</span><span class="p">)</span>
+<span class="c1"># Verify the schema</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Student 1 DataFrame Schema:"</span><span class="p">)</span>
+<span class="n">student1_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7794,117 +7785,12 @@ JAVA_HOME: C:\Program Files\Java\jdk-21
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-Student 1 DataFrame Schema:
+<pre>Student 1 DataFrame Schema:
 root
  |-- ip_address: string (nullable = true)
  |-- timestamp: timestamp (nullable = true)
  |-- http_method: string (nullable = true)
-
-
-Student 1 Sample Data:
-+--------------+-------------------+-----------+
-|ip_address    |timestamp          |http_method|
-+--------------+-------------------+-----------+
-|88.211.105.115|2022-03-04 14:17:48|POST       |
-|144.6.49.142  |2022-09-02 15:16:00|POST       |
-|231.70.64.145 |2022-07-19 01:31:31|PUT        |
-|219.42.234.172|2022-02-08 11:34:57|POST       |
-|183.173.185.94|2023-08-29 03:07:11|GET        |
-+--------------+-------------------+-----------+
-only showing top 5 rows
-
-
-Student 1 Validation Counts:
-+----------------+---------------+-----------------+
-|ip_address_count|timestamp_count|http_method_count|
-+----------------+---------------+-----------------+
-|         3000000|        3000000|          3000000|
-+----------------+---------------+-----------------+
-
-
-Student 2 DataFrame Schema:
-root
- |-- status_code: string (nullable = true)
- |-- response_size: integer (nullable = true)
- |-- timestamp: timestamp (nullable = true)
-
-
-Student 2 Sample Data:
-+-----------+-------------+-------------------+
-|status_code|response_size|timestamp          |
-+-----------+-------------+-------------------+
-|414        |12456        |2022-03-04 14:17:48|
-|203        |97126        |2022-09-02 15:16:00|
-|201        |33093        |2022-07-19 01:31:31|
-|415        |68827        |2022-02-08 11:34:57|
-|205        |30374        |2023-08-29 03:07:11|
-+-----------+-------------+-------------------+
-only showing top 5 rows
-
-
-Student 2 Validation Counts:
-+-----------------+-------------------+---------------+
-|status_code_count|response_size_count|timestamp_count|
-+-----------------+-------------------+---------------+
-|          3000000|            3000000|        3000000|
-+-----------------+-------------------+---------------+
-
-
-Student 3 DataFrame Schema:
-root
  |-- url_path: string (nullable = true)
- |-- ip_address: string (nullable = true)
- |-- response_size: integer (nullable = true)
-
-
-Student 3 Sample Data:
-+---------------------------+--------------+-------------+
-|url_path                   |ip_address    |response_size|
-+---------------------------+--------------+-------------+
-|/history/missions/         |88.211.105.115|12456        |
-|/security/firewall/        |144.6.49.142  |97126        |
-|/web-development/countdown/|231.70.64.145 |33093        |
-|/networking/technology/    |219.42.234.172|68827        |
-|/security/firewall/        |183.173.185.94|30374        |
-+---------------------------+--------------+-------------+
-only showing top 5 rows
-
-
-Student 3 Validation Counts:
-+--------------+----------------+-------------------+
-|url_path_count|ip_address_count|response_size_count|
-+--------------+----------------+-------------------+
-|       3000000|         3000000|            3000000|
-+--------------+----------------+-------------------+
-
-
-Student 4 DataFrame Schema:
-root
- |-- log_message: string (nullable = true)
- |-- status_code: string (nullable = true)
- |-- timestamp: timestamp (nullable = true)
-
-
-Student 4 Sample Data:
-+----------------------------------------+-----------+-------------------+
-|log_message                             |status_code|timestamp          |
-+----------------------------------------+-----------+-------------------+
-|POST /history/missions/ HTTP/2.0        |414        |2022-03-04 14:17:48|
-|POST /security/firewall/ HTTPS/1.0      |203        |2022-09-02 15:16:00|
-|PUT /web-development/countdown/ HTTP/1.0|201        |2022-07-19 01:31:31|
-|POST /networking/technology/ HTTP/1.0   |415        |2022-02-08 11:34:57|
-|GET /security/firewall/ HTTP/2.0        |205        |2023-08-29 03:07:11|
-+----------------------------------------+-----------+-------------------+
-only showing top 5 rows
-
-
-Student 4 Validation Counts:
-+-----------------+-----------------+---------------+
-|log_message_count|status_code_count|timestamp_count|
-+-----------------+-----------------+---------------+
-|          3000000|          3000000|        3000000|
-+-----------------+-----------------+---------------+
 
 </pre>
 </div>
@@ -7918,51 +7804,7 @@ Student 4 Validation Counts:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Task-2:-Two-Advanced-DataFrame-Analysis-(20-marks)">Task 2: Two Advanced DataFrame Analysis (20 marks)<a class="anchor-link" href="#Task-2:-Two-Advanced-DataFrame-Analysis-(20-marks)">¶</a></h1><p>Each member will write unique SQL queries for the analysis:</p>
-<h2 id="SQL-Query-1:-Window-Functions">SQL Query 1: Window Functions<a class="anchor-link" href="#SQL-Query-1:-Window-Functions">¶</a></h2><ul>
-<li><p><strong>Student 1: Rolling hourly traffic per IP</strong></p>
-<ul>
-<li><strong>Description:</strong> Calculate traffic count per IP over a sliding window.</li>
-</ul>
-</li>
-<li><p><strong>Student 2: Session identification</strong></p>
-<ul>
-<li><strong>Description:</strong> Identify sessions based on timestamp gaps.</li>
-</ul>
-</li>
-<li><p><strong>Student 3: Unique visitors per hour</strong></p>
-<ul>
-<li><strong>Description:</strong> Count distinct IPs for each hour.</li>
-</ul>
-</li>
-<li><p><strong>Student 4: Average response size per status code</strong></p>
-<ul>
-<li><strong>Description:</strong> Compute averages grouped by status codes.</li>
-</ul>
-</li>
-</ul>
-<h2 id="SQL-Query-2:-Aggregation-Functions">SQL Query 2: Aggregation Functions<a class="anchor-link" href="#SQL-Query-2:-Aggregation-Functions">¶</a></h2><ul>
-<li><p><strong>Student 1: Traffic patterns by URL path</strong></p>
-<ul>
-<li><strong>Description:</strong> Analyze URL visits by hour.</li>
-</ul>
-</li>
-<li><p><strong>Student 2: Top 10 failed requests by size</strong></p>
-<ul>
-<li><strong>Description:</strong> Identify the largest failed requests.</li>
-</ul>
-</li>
-<li><p><strong>Student 3: Response size distribution by status</strong></p>
-<ul>
-<li><strong>Description:</strong> Show min, max, and avg sizes for each status.</li>
-</ul>
-</li>
-<li><p><strong>Student 4: Daily unique visitors</strong></p>
-<ul>
-<li><strong>Description:</strong> Count unique IPs per day.</li>
-</ul>
-</li>
-</ul>
+<h2 id="Student-2:-Phalguna-Avalagunta---HTTP-Status-Code,-Response-Size,-and-Timestamp-Analysis">Student 2: Phalguna Avalagunta - HTTP Status Code, Response Size, and Timestamp Analysis<a class="anchor-link" href="#Student-2:-Phalguna-Avalagunta---HTTP-Status-Code,-Response-Size,-and-Timestamp-Analysis">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7971,89 +7813,30 @@ Student 4 Validation Counts:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># First, let's confirm what columns we have in each DataFrame</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Available columns in student1_logs:"</span><span class="p">)</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">"SELECT * FROM student1_logs"</span><span class="p">)</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Available columns in student2_logs:"</span><span class="p">)</span>
-<span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">"SELECT * FROM student2_logs"</span><span class="p">)</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
-
-<span class="c1"># Now let's modify our functions to only use available columns</span>
-
-<span class="c1"># Student 2: Session identification (Modified)</span>
-<span class="k">def</span> <span class="nf">analyze_sessions</span><span class="p">():</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">    WITH time_gaps AS (</span>
-<span class="s2">        SELECT </span>
-<span class="s2">            timestamp,</span>
-<span class="s2">            LAG(timestamp) OVER (</span>
-<span class="s2">                ORDER BY timestamp</span>
-<span class="s2">            ) as prev_timestamp,</span>
-<span class="s2">            status_code</span>
-<span class="s2">        FROM student2_logs</span>
-<span class="s2">    )</span>
-<span class="s2">    SELECT </span>
-<span class="s2">        timestamp,</span>
-<span class="s2">        status_code,</span>
-<span class="s2">        CASE </span>
-<span class="s2">            WHEN (unix_timestamp(timestamp) - unix_timestamp(prev_timestamp)) &gt; 1800 </span>
-<span class="s2">            OR prev_timestamp IS NULL </span>
-<span class="s2">            THEN 1 </span>
-<span class="s2">            ELSE 0 </span>
-<span class="s2">        END as new_session</span>
-<span class="s2">    FROM time_gaps</span>
-<span class="s2">    ORDER BY timestamp</span>
-<span class="s2">    """</span>
-    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-
-<span class="c1"># Student 3: Unique visitors per hour (Modified)</span>
-<span class="k">def</span> <span class="nf">analyze_unique_visitors</span><span class="p">():</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">    SELECT </span>
-<span class="s2">        date_trunc('hour', timestamp) as hour,</span>
-<span class="s2">        COUNT(*) as total_visits</span>
-<span class="s2">    FROM student1_logs</span>
-<span class="s2">    GROUP BY date_trunc('hour', timestamp)</span>
-<span class="s2">    ORDER BY hour</span>
-<span class="s2">    """</span>
-    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-
-<span class="c1"># Student 4: Average response size per status code (Original - should work)</span>
-<span class="k">def</span> <span class="nf">analyze_avg_response_size</span><span class="p">():</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
-<span class="s2">    SELECT </span>
-<span class="s2">        status_code,</span>
-<span class="s2">        AVG(response_size) as avg_size,</span>
-<span class="s2">        COUNT(*) as request_count,</span>
-<span class="s2">        MIN(response_size) as min_size,</span>
-<span class="s2">        MAX(response_size) as max_size</span>
-<span class="s2">    FROM student2_logs</span>
-<span class="s2">    GROUP BY status_code</span>
-<span class="s2">    ORDER BY status_code</span>
-<span class="s2">    """</span>
-    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-
-<span class="c1"># Try executing the queries</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Window Functions Analysis ==="</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Extract HTTP Status Code, Response Size, and Timestamp</span>
+<span class="k">def</span> <span class="nf">create_student2_df</span><span class="p">():</span>
+    <span class="n">student2_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" (\d</span><span class="si">{3}</span><span class="s1">)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" \d</span><span class="si">{3}</span><span class="s1"> (\d+)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">IntegerType</span><span class="p">())</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"response_size"</span><span class="p">),</span>
+        <span class="n">to_timestamp</span><span class="p">(</span>
+            <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"\[(.*?)\]"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s2">"dd/MMM/yyyy:HH:mm:ss"</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"timestamp"</span><span class="p">)</span>
+    <span class="p">)</span>
     
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 2 - Session Identification:"</span><span class="p">)</span>
-    <span class="n">analyze_sessions</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 3 - Hourly Visit Counts:"</span><span class="p">)</span>
-    <span class="n">analyze_unique_visitors</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 4 - Response Size Analysis:"</span><span class="p">)</span>
-    <span class="n">analyze_avg_response_size</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="c1"># Register DataFrame as view for SQL queries</span>
+    <span class="n">student2_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student2_logs"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">student2_df</span>
 
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"An error occurred: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    
-    <span class="c1"># Print the actual data for debugging</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Sample data from student2_logs:"</span><span class="p">)</span>
-    <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s2">"SELECT * FROM student2_logs LIMIT 5"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># Validate Student 2's DataFrame</span>
+<span class="n">student2_df</span> <span class="o">=</span> <span class="n">create_student2_df</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Student 2 (Phalguna Avalagunta) DataFrame Schema:"</span><span class="p">)</span>
+<span class="n">student2_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Sample Data:"</span><span class="p">)</span>
+<span class="n">student2_df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8066,58 +7849,930 @@ Student 4 Validation Counts:
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Available columns in student1_logs:
-root
- |-- ip_address: string (nullable = true)
- |-- timestamp: timestamp (nullable = true)
- |-- http_method: string (nullable = true)
-
-
-Available columns in student2_logs:
+<pre>Student 2 (Phalguna Avalagunta) DataFrame Schema:
 root
  |-- status_code: string (nullable = true)
  |-- response_size: integer (nullable = true)
  |-- timestamp: timestamp (nullable = true)
 
 
-=== Window Functions Analysis ===
+Sample Data:
++-----------+-------------+-------------------+
+|status_code|response_size|timestamp          |
++-----------+-------------+-------------------+
+|414        |12456        |2022-03-04 14:17:48|
+|203        |97126        |2022-09-02 15:16:00|
+|201        |33093        |2022-07-19 01:31:31|
+|415        |68827        |2022-02-08 11:34:57|
+|205        |30374        |2023-08-29 03:07:11|
++-----------+-------------+-------------------+
+only showing top 5 rows
 
-Student 2 - Session Identification:
-+-------------------+-----------+-----------+
-|          timestamp|status_code|new_session|
-+-------------------+-----------+-----------+
-|2022-01-01 00:01:34|        203|          1|
-|2022-01-01 00:01:50|        414|          0|
-|2022-01-01 00:02:15|        200|          0|
-|2022-01-01 00:02:30|        203|          0|
-|2022-01-01 00:02:45|        308|          0|
-+-------------------+-----------+-----------+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Student-3:-Nikhil-Sai-Damera---URL-Path,-IP-Address,-and-Response-Size-Analysis">Student 3: Nikhil Sai Damera - URL Path, IP Address, and Response Size Analysis<a class="anchor-link" href="#Student-3:-Nikhil-Sai-Damera---URL-Path,-IP-Address,-and-Response-Size-Analysis">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Student 3: Nikhil Sai Damera - Modified to include timestamp</span>
+<span class="k">def</span> <span class="nf">create_student3_df</span><span class="p">():</span>
+    <span class="n">student3_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'"[A-Z]+ (.*?) HTTP'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"url_path"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"(\d+\.\d+\.\d+\.\d+)"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"ip_address"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" \d</span><span class="si">{3}</span><span class="s1"> (\d+)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">IntegerType</span><span class="p">())</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"response_size"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" (\d</span><span class="si">{3}</span><span class="s1">)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">),</span>
+        <span class="c1"># Add timestamp column</span>
+        <span class="n">to_timestamp</span><span class="p">(</span>
+            <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"\[(.*?)\]"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s2">"dd/MMM/yyyy:HH:mm:ss"</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"timestamp"</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">student3_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student3_logs"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">student3_df</span>
+
+<span class="c1"># Create the DataFrame</span>
+<span class="n">student3_df</span> <span class="o">=</span> <span class="n">create_student3_df</span><span class="p">()</span>
+
+<span class="c1"># Verify the schema</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Student 3 DataFrame Schema:"</span><span class="p">)</span>
+<span class="n">student3_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+
+<span class="c1"># Then keep your window analysis function:</span>
+<span class="k">def</span> <span class="nf">nikhil_window_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        date_trunc('hour', timestamp) as hour,</span>
+<span class="s2">        COUNT(DISTINCT ip_address) as unique_visitors,</span>
+<span class="s2">        COUNT(DISTINCT ip_address) - LAG(COUNT(DISTINCT ip_address)) </span>
+<span class="s2">            OVER (ORDER BY date_trunc('hour', timestamp)) as visitor_change</span>
+<span class="s2">    FROM student3_logs</span>
+<span class="s2">    GROUP BY date_trunc('hour', timestamp)</span>
+<span class="s2">    ORDER BY hour</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Nikhil's Window Function Analysis - Hourly Unique Visitors:"</span><span class="p">)</span>
+<span class="n">nikhil_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Student 3 DataFrame Schema:
+root
+ |-- url_path: string (nullable = true)
+ |-- ip_address: string (nullable = true)
+ |-- response_size: integer (nullable = true)
+ |-- status_code: string (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+
+
+Nikhil's Window Function Analysis - Hourly Unique Visitors:
++-------------------+---------------+--------------+
+|               hour|unique_visitors|visitor_change|
++-------------------+---------------+--------------+
+|2022-01-01 00:00:00|            196|          NULL|
+|2022-01-01 01:00:00|            203|             7|
+|2022-01-01 02:00:00|            201|            -2|
+|2022-01-01 03:00:00|            187|           -14|
+|2022-01-01 04:00:00|            195|             8|
++-------------------+---------------+--------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Student-4:-Sai-Kishore-Dodda---Log-Message,-HTTP-Status-Code,-and-Timestamp-Analysis">Student 4: Sai Kishore Dodda - Log Message, HTTP Status Code, and Timestamp Analysis<a class="anchor-link" href="#Student-4:-Sai-Kishore-Dodda---Log-Message,-HTTP-Status-Code,-and-Timestamp-Analysis">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Student 4: Sai Kishore Dodda - Modified to include ip_address</span>
+<span class="k">def</span> <span class="nf">create_student4_df</span><span class="p">():</span>
+    <span class="n">student4_df</span> <span class="o">=</span> <span class="n">logs_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'"(.*?)"'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"log_message"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" (\d</span><span class="si">{3}</span><span class="s1">)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">),</span>
+        <span class="n">to_timestamp</span><span class="p">(</span>
+            <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"\[(.*?)\]"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="s2">"dd/MMM/yyyy:HH:mm:ss"</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"timestamp"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s1">'" \d</span><span class="si">{3}</span><span class="s1"> (\d+)'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">IntegerType</span><span class="p">())</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"response_size"</span><span class="p">),</span>
+        <span class="n">regexp_extract</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">"value"</span><span class="p">),</span> <span class="sa">r</span><span class="s2">"(\d+\.\d+\.\d+\.\d+)"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"ip_address"</span><span class="p">)</span>  <span class="c1"># Added this line</span>
+    <span class="p">)</span>
+    <span class="n">student4_df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"student4_logs"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">student4_df</span>
+
+<span class="c1"># Create the DataFrame</span>
+<span class="n">student4_df</span> <span class="o">=</span> <span class="n">create_student4_df</span><span class="p">()</span>
+
+<span class="c1"># Verify the schema</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Student 4 DataFrame Schema:"</span><span class="p">)</span>
+<span class="n">student4_df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+
+<span class="c1"># Then the aggregation function:</span>
+<span class="k">def</span> <span class="nf">sai_aggregation_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        date_trunc('day', timestamp) as day,</span>
+<span class="s2">        COUNT(DISTINCT ip_address) as unique_visitors,</span>
+<span class="s2">        COUNT(*) as total_requests</span>
+<span class="s2">    FROM student4_logs</span>
+<span class="s2">    GROUP BY date_trunc('day', timestamp)</span>
+<span class="s2">    ORDER BY day</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Sai's Aggregation Analysis - Daily Unique Visitors:"</span><span class="p">)</span>
+<span class="n">sai_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Student 4 DataFrame Schema:
+root
+ |-- log_message: string (nullable = true)
+ |-- status_code: string (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- response_size: integer (nullable = true)
+ |-- ip_address: string (nullable = true)
+
+
+Sai's Aggregation Analysis - Daily Unique Visitors:
++-------------------+---------------+--------------+
+|                day|unique_visitors|total_requests|
++-------------------+---------------+--------------+
+|2022-01-01 00:00:00|           4533|          4533|
+|2022-01-02 00:00:00|           4351|          4351|
+|2022-01-03 00:00:00|           4331|          4331|
+|2022-01-04 00:00:00|           4383|          4383|
+|2022-01-05 00:00:00|           4464|          4464|
++-------------------+---------------+--------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Validation-Function-(For-debugging)">Validation Function (For debugging)<a class="anchor-link" href="#Validation-Function-(For-debugging)">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">validate_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">student_name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="si">{</span><span class="n">student_name</span><span class="si">}</span><span class="s2"> DataFrame Validation:"</span><span class="p">)</span>
+    <span class="c1"># Count non-null values for each column</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">([</span>
+        <span class="nb">sum</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">isNotNull</span><span class="p">()</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s2">"int"</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">_count"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="p">])</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Task-2:-Two-Advanced-DataFrame-Analysis-(20-marks)">Task 2: Two Advanced DataFrame Analysis (20 marks)<a class="anchor-link" href="#Task-2:-Two-Advanced-DataFrame-Analysis-(20-marks)">¶</a></h1>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Student-1:-Navya-Athoti">Student 1: Navya Athoti<a class="anchor-link" href="#Student-1:-Navya-Athoti">¶</a></h2><h3 id="Query-1:-Rolling-Hourly-Traffic-per-IP-(Window-Function)">Query 1: Rolling Hourly Traffic per IP (Window Function)<a class="anchor-link" href="#Query-1:-Rolling-Hourly-Traffic-per-IP-(Window-Function)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">navya_window_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    WITH hourly_counts AS (</span>
+<span class="s2">        SELECT </span>
+<span class="s2">            ip_address,</span>
+<span class="s2">            date_trunc('hour', timestamp) as hour,</span>
+<span class="s2">            COUNT(*) as traffic_count,</span>
+<span class="s2">            LAG(COUNT(*)) OVER (PARTITION BY ip_address ORDER BY date_trunc('hour', timestamp)) as prev_hour_count</span>
+<span class="s2">        FROM student1_logs</span>
+<span class="s2">        GROUP BY ip_address, date_trunc('hour', timestamp)</span>
+<span class="s2">    )</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        ip_address,</span>
+<span class="s2">        hour,</span>
+<span class="s2">        traffic_count,</span>
+<span class="s2">        prev_hour_count,</span>
+<span class="s2">        COALESCE(traffic_count - prev_hour_count, 0) as traffic_change</span>
+<span class="s2">    FROM hourly_counts</span>
+<span class="s2">    ORDER BY hour, ip_address</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Navya's Window Function Analysis - Rolling Hourly Traffic:"</span><span class="p">)</span>
+<span class="n">navya_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Navya's Window Function Analysis - Rolling Hourly Traffic:
++--------------+-------------------+-------------+---------------+--------------+
+|    ip_address|               hour|traffic_count|prev_hour_count|traffic_change|
++--------------+-------------------+-------------+---------------+--------------+
+|    1.51.53.57|2022-01-01 00:00:00|            1|           NULL|             0|
+| 10.204.59.174|2022-01-01 00:00:00|            1|           NULL|             0|
+|  101.8.54.229|2022-01-01 00:00:00|            1|           NULL|             0|
+| 102.30.21.255|2022-01-01 00:00:00|            1|           NULL|             0|
+|105.167.57.131|2022-01-01 00:00:00|            1|           NULL|             0|
++--------------+-------------------+-------------+---------------+--------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Query-2:-Traffic-Patterns-by-URL-Path-(Aggregation)">Query 2: Traffic Patterns by URL Path (Aggregation)<a class="anchor-link" href="#Query-2:-Traffic-Patterns-by-URL-Path-(Aggregation)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">navya_aggregation_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        url_path,</span>
+<span class="s2">        date_trunc('hour', timestamp) as hour,</span>
+<span class="s2">        COUNT(*) as visit_count,</span>
+<span class="s2">        COUNT(DISTINCT ip_address) as unique_visitors</span>
+<span class="s2">    FROM student1_logs</span>
+<span class="s2">    GROUP BY url_path, date_trunc('hour', timestamp)</span>
+<span class="s2">    ORDER BY hour, visit_count DESC</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Navya's Aggregation Analysis - URL Traffic Patterns:"</span><span class="p">)</span>
+<span class="n">navya_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+Navya's Aggregation Analysis - URL Traffic Patterns:
++--------------------+-------------------+-----------+---------------+
+|            url_path|               hour|visit_count|unique_visitors|
++--------------------+-------------------+-----------+---------------+
+|/networking/aws-c...|2022-01-01 00:00:00|          7|              7|
+|/security/deep-le...|2022-01-01 00:00:00|          5|              5|
+|/cloud-computing/...|2022-01-01 00:00:00|          5|              5|
+|  /history/missions/|2022-01-01 00:00:00|          5|              5|
+|/networking/cyber...|2022-01-01 00:00:00|          4|              4|
++--------------------+-------------------+-----------+---------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Student-2:-Phalguna-Avalagunta">Student 2: Phalguna Avalagunta<a class="anchor-link" href="#Student-2:-Phalguna-Avalagunta">¶</a></h2><h3 id="Query-1:-Session-Identification-(Window-Function)">Query 1: Session Identification (Window Function)<a class="anchor-link" href="#Query-1:-Session-Identification-(Window-Function)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">phalguna_window_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    WITH time_gaps AS (</span>
+<span class="s2">        SELECT </span>
+<span class="s2">            timestamp,</span>
+<span class="s2">            LAG(timestamp) OVER (ORDER BY timestamp) as prev_timestamp,</span>
+<span class="s2">            status_code,</span>
+<span class="s2">            CASE </span>
+<span class="s2">                WHEN (unix_timestamp(timestamp) - unix_timestamp(LAG(timestamp) OVER (ORDER BY timestamp))) &gt; 1800 </span>
+<span class="s2">                OR LAG(timestamp) OVER (ORDER BY timestamp) IS NULL </span>
+<span class="s2">                THEN 1 </span>
+<span class="s2">                ELSE 0 </span>
+<span class="s2">            END as new_session</span>
+<span class="s2">        FROM student2_logs</span>
+<span class="s2">    )</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        timestamp,</span>
+<span class="s2">        status_code,</span>
+<span class="s2">        new_session,</span>
+<span class="s2">        SUM(new_session) OVER (ORDER BY timestamp) as session_id</span>
+<span class="s2">    FROM time_gaps</span>
+<span class="s2">    ORDER BY timestamp</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Phalguna's Window Function Analysis - Session Identification:"</span><span class="p">)</span>
+<span class="n">phalguna_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Phalguna's Window Function Analysis - Session Identification:
++-------------------+-----------+-----------+----------+
+|          timestamp|status_code|new_session|session_id|
++-------------------+-----------+-----------+----------+
+|2022-01-01 00:01:34|        203|          1|         1|
+|2022-01-01 00:01:50|        414|          0|         1|
+|2022-01-01 00:02:15|        200|          0|         1|
+|2022-01-01 00:02:30|        203|          0|         1|
+|2022-01-01 00:02:45|        308|          0|         1|
++-------------------+-----------+-----------+----------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Query-2:-Top-10-Failed-Requests-by-Size-(Aggregation)">Query 2: Top 10 Failed Requests by Size (Aggregation)<a class="anchor-link" href="#Query-2:-Top-10-Failed-Requests-by-Size-(Aggregation)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">phalguna_aggregation_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        status_code,</span>
+<span class="s2">        response_size,</span>
+<span class="s2">        timestamp</span>
+<span class="s2">    FROM student2_logs</span>
+<span class="s2">    WHERE status_code &gt;= '400'</span>
+<span class="s2">    ORDER BY response_size DESC</span>
+<span class="s2">    LIMIT 10</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Phalguna's Aggregation Analysis - Top Failed Requests:"</span><span class="p">)</span>
+<span class="n">phalguna_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Phalguna's Aggregation Analysis - Top Failed Requests:
++-----------+-------------+-------------------+
+|status_code|response_size|          timestamp|
++-----------+-------------+-------------------+
+|        415|       100000|2022-11-17 00:39:24|
+|        416|       100000|2022-02-27 08:46:12|
+|        500|       100000|2023-07-29 15:28:58|
+|        500|       100000|2023-10-10 19:04:45|
+|        416|       100000|2022-04-10 20:58:04|
++-----------+-------------+-------------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Student-3:-Nikhil-Sai-Damera">Student 3: Nikhil Sai Damera<a class="anchor-link" href="#Student-3:-Nikhil-Sai-Damera">¶</a></h2><h3 id="Query-1:-Unique-Visitors-per-Hour-(Window-Function)">Query 1: Unique Visitors per Hour (Window Function)<a class="anchor-link" href="#Query-1:-Unique-Visitors-per-Hour-(Window-Function)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">nikhil_window_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        date_trunc('hour', timestamp) as hour,</span>
+<span class="s2">        COUNT(DISTINCT ip_address) as unique_visitors,</span>
+<span class="s2">        COUNT(DISTINCT ip_address) - LAG(COUNT(DISTINCT ip_address)) </span>
+<span class="s2">            OVER (ORDER BY date_trunc('hour', timestamp)) as visitor_change</span>
+<span class="s2">    FROM student3_logs</span>
+<span class="s2">    GROUP BY date_trunc('hour', timestamp)</span>
+<span class="s2">    ORDER BY hour</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Nikhil's Window Function Analysis - Hourly Unique Visitors:"</span><span class="p">)</span>
+<span class="n">nikhil_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Nikhil's Window Function Analysis - Hourly Unique Visitors:
++-------------------+---------------+--------------+
+|               hour|unique_visitors|visitor_change|
++-------------------+---------------+--------------+
+|2022-01-01 00:00:00|            196|          NULL|
+|2022-01-01 01:00:00|            203|             7|
+|2022-01-01 02:00:00|            201|            -2|
+|2022-01-01 03:00:00|            187|           -14|
+|2022-01-01 04:00:00|            195|             8|
++-------------------+---------------+--------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Query-2:-Response-Size-Distribution-by-Status-(Aggregation)">Query 2: Response Size Distribution by Status (Aggregation)<a class="anchor-link" href="#Query-2:-Response-Size-Distribution-by-Status-(Aggregation)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">nikhil_aggregation_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        status_code,</span>
+<span class="s2">        MIN(response_size) as min_size,</span>
+<span class="s2">        MAX(response_size) as max_size,</span>
+<span class="s2">        AVG(response_size) as avg_size,</span>
+<span class="s2">        PERCENTILE_APPROX(response_size, 0.5) as median_size,</span>
+<span class="s2">        COUNT(*) as request_count</span>
+<span class="s2">    FROM student3_logs</span>
+<span class="s2">    GROUP BY status_code</span>
+<span class="s2">    ORDER BY status_code</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Nikhil's Aggregation Analysis - Response Size Distribution:"</span><span class="p">)</span>
+<span class="n">nikhil_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Nikhil's Aggregation Analysis - Response Size Distribution:
++-----------+--------+--------+-----------------+-----------+-------------+
+|status_code|min_size|max_size|         avg_size|median_size|request_count|
++-----------+--------+--------+-----------------+-----------+-------------+
+|        200|    1000|  100000|50565.73821994404|      50600|       214791|
+|        201|    1000|  100000|50542.00092736712|      50573|       214586|
+|        202|    1001|  100000|50454.74877758012|      50413|       214738|
+|        203|    1000|  100000|50423.19351991519|      50330|       214133|
+|        204|    1000|  100000|50402.07495866336|      50344|       213491|
++-----------+--------+--------+-----------------+-----------+-------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Student-4:-Sai-Kishore-Dodda">Student 4: Sai Kishore Dodda<a class="anchor-link" href="#Student-4:-Sai-Kishore-Dodda">¶</a></h2><h3 id="Query-1:-Average-Response-Size-per-Status-Code-(Window-Function)">Query 1: Average Response Size per Status Code (Window Function)<a class="anchor-link" href="#Query-1:-Average-Response-Size-per-Status-Code-(Window-Function)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sai_window_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        status_code,</span>
+<span class="s2">        AVG(response_size) OVER (</span>
+<span class="s2">            PARTITION BY status_code </span>
+<span class="s2">            ORDER BY timestamp </span>
+<span class="s2">            ROWS BETWEEN 99 PRECEDING AND CURRENT ROW</span>
+<span class="s2">        ) as rolling_avg_size,</span>
+<span class="s2">        response_size,</span>
+<span class="s2">        timestamp</span>
+<span class="s2">    FROM student4_logs</span>
+<span class="s2">    ORDER BY timestamp</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Sai's Window Function Analysis - Rolling Average Response Size:"</span><span class="p">)</span>
+<span class="n">sai_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Sai's Window Function Analysis - Rolling Average Response Size:
++-----------+----------------+-------------+-------------------+
+|status_code|rolling_avg_size|response_size|          timestamp|
++-----------+----------------+-------------+-------------------+
+|        203|         60819.0|        60819|2022-01-01 00:01:34|
+|        414|         75833.0|        75833|2022-01-01 00:01:50|
+|        200|         97160.0|        97160|2022-01-01 00:02:15|
+|        203|         37624.0|        14429|2022-01-01 00:02:30|
+|        308|         35415.0|        35415|2022-01-01 00:02:45|
++-----------+----------------+-------------+-------------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Query-2:-Daily-Unique-Visitors-(Aggregation)">Query 2: Daily Unique Visitors (Aggregation)<a class="anchor-link" href="#Query-2:-Daily-Unique-Visitors-(Aggregation)">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [41]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sai_aggregation_analysis</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">    SELECT </span>
+<span class="s2">        date_trunc('day', timestamp) as day,</span>
+<span class="s2">        COUNT(DISTINCT ip_address) as unique_visitors,</span>
+<span class="s2">        COUNT(*) as total_requests</span>
+<span class="s2">    FROM student4_logs</span>
+<span class="s2">    GROUP BY date_trunc('day', timestamp)</span>
+<span class="s2">    ORDER BY day</span>
+<span class="s2">    """</span>
+    <span class="k">return</span> <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+<span class="c1"># Execute and show results</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Sai's Aggregation Analysis - Daily Unique Visitors:"</span><span class="p">)</span>
+<span class="n">sai_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Sai's Aggregation Analysis - Daily Unique Visitors:
++-------------------+---------------+--------------+
+|                day|unique_visitors|total_requests|
++-------------------+---------------+--------------+
+|2022-01-01 00:00:00|           4533|          4533|
+|2022-01-02 00:00:00|           4351|          4351|
+|2022-01-03 00:00:00|           4331|          4331|
+|2022-01-04 00:00:00|           4383|          4383|
+|2022-01-05 00:00:00|           4464|          4464|
++-------------------+---------------+--------------+
+only showing top 5 rows
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Execute-All-Analyses">Execute All Analyses<a class="anchor-link" href="#Execute-All-Analyses">¶</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">run_all_analyses</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Running All Analyses ===</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+        
+        <span class="c1"># Student 1: Navya</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 1 (Navya) Analyses:"</span><span class="p">)</span>
+        <span class="n">navya_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">navya_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        
+        <span class="c1"># Student 2: Phalguna</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 2 (Phalguna) Analyses:"</span><span class="p">)</span>
+        <span class="n">phalguna_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">phalguna_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        
+        <span class="c1"># Student 3: Nikhil</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 3 (Nikhil) Analyses:"</span><span class="p">)</span>
+        <span class="n">nikhil_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">nikhil_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        
+        <span class="c1"># Student 4: Sai</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Student 4 (Sai) Analyses:"</span><span class="p">)</span>
+        <span class="n">sai_window_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">sai_aggregation_analysis</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== All Analyses Completed Successfully ==="</span><span class="p">)</span>
+        
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">An error occurred: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Debug Information:"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">view</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"student1_logs"</span><span class="p">,</span> <span class="s2">"student2_logs"</span><span class="p">,</span> <span class="s2">"student3_logs"</span><span class="p">,</span> <span class="s2">"student4_logs"</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Sample data from </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
+            <span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SELECT * FROM </span><span class="si">{</span><span class="n">view</span><span class="si">}</span><span class="s2"> LIMIT 3"</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Run all analyses</span>
+<span class="n">run_all_analyses</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>
+=== Running All Analyses ===
+
+
+Student 1 (Navya) Analyses:
++--------------+-------------------+-------------+---------------+--------------+
+|    ip_address|               hour|traffic_count|prev_hour_count|traffic_change|
++--------------+-------------------+-------------+---------------+--------------+
+|    1.51.53.57|2022-01-01 00:00:00|            1|           NULL|             0|
+| 10.204.59.174|2022-01-01 00:00:00|            1|           NULL|             0|
+|  101.8.54.229|2022-01-01 00:00:00|            1|           NULL|             0|
+| 102.30.21.255|2022-01-01 00:00:00|            1|           NULL|             0|
+|105.167.57.131|2022-01-01 00:00:00|            1|           NULL|             0|
++--------------+-------------------+-------------+---------------+--------------+
+only showing top 5 rows
+
++--------------------+-------------------+-----------+---------------+
+|            url_path|               hour|visit_count|unique_visitors|
++--------------------+-------------------+-----------+---------------+
+|/networking/aws-c...|2022-01-01 00:00:00|          7|              7|
+|  /history/missions/|2022-01-01 00:00:00|          5|              5|
+|/cloud-computing/...|2022-01-01 00:00:00|          5|              5|
+|/security/deep-le...|2022-01-01 00:00:00|          5|              5|
+|/cloud-computing/...|2022-01-01 00:00:00|          4|              4|
++--------------------+-------------------+-----------+---------------+
 only showing top 5 rows
 
 
-Student 3 - Hourly Visit Counts:
-+-------------------+------------+
-|               hour|total_visits|
-+-------------------+------------+
-|2022-01-01 00:00:00|         196|
-|2022-01-01 01:00:00|         203|
-|2022-01-01 02:00:00|         201|
-|2022-01-01 03:00:00|         187|
-|2022-01-01 04:00:00|         195|
-+-------------------+------------+
+Student 2 (Phalguna) Analyses:
++-------------------+-----------+-----------+----------+
+|          timestamp|status_code|new_session|session_id|
++-------------------+-----------+-----------+----------+
+|2022-01-01 00:01:34|        203|          1|         1|
+|2022-01-01 00:01:50|        414|          0|         1|
+|2022-01-01 00:02:15|        200|          0|         1|
+|2022-01-01 00:02:30|        203|          0|         1|
+|2022-01-01 00:02:45|        308|          0|         1|
++-------------------+-----------+-----------+----------+
+only showing top 5 rows
+
++-----------+-------------+-------------------+
+|status_code|response_size|          timestamp|
++-----------+-------------+-------------------+
+|        415|       100000|2022-11-17 00:39:24|
+|        416|       100000|2022-04-10 20:58:04|
+|        416|       100000|2022-02-27 08:46:12|
+|        500|       100000|2023-07-29 15:28:58|
+|        500|       100000|2023-10-10 19:04:45|
++-----------+-------------+-------------------+
 only showing top 5 rows
 
 
-Student 4 - Response Size Analysis:
-+-----------+-----------------+-------------+--------+--------+
-|status_code|         avg_size|request_count|min_size|max_size|
-+-----------+-----------------+-------------+--------+--------+
-|        200|50565.73821994404|       214791|    1000|  100000|
-|        201|50542.00092736712|       214586|    1000|  100000|
-|        202|50454.74877758012|       214738|    1001|  100000|
-|        203|50423.19351991519|       214133|    1000|  100000|
-|        204|50402.07495866336|       213491|    1000|  100000|
-+-----------+-----------------+-------------+--------+--------+
+Student 3 (Nikhil) Analyses:
++-------------------+---------------+--------------+
+|               hour|unique_visitors|visitor_change|
++-------------------+---------------+--------------+
+|2022-01-01 00:00:00|            196|          NULL|
+|2022-01-01 01:00:00|            203|             7|
+|2022-01-01 02:00:00|            201|            -2|
+|2022-01-01 03:00:00|            187|           -14|
+|2022-01-01 04:00:00|            195|             8|
++-------------------+---------------+--------------+
 only showing top 5 rows
 
 </pre>
@@ -8335,8 +8990,8 @@ All visualizations have been generated successfully!
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Student-Basic-Extraction-Examples">Student Basic Extraction Examples<a class="anchor-link" href="#Student-Basic-Extraction-Examples">¶</a></h3><ul>
-<li><strong>Student 1</strong>: Extract Timestamp and IP<br/>
-<strong>Description</strong>: Parse timestamp and IP address from logs.</li>
+<li>****Navya Athoti** Email: u2793047@uel.ac.uk<strong>: Extract Timestamp and IP  
+ </strong>Description**: Parse timestamp and IP address from logs.</li>
 </ul>
 </div>
 </div>
@@ -8388,7 +9043,7 @@ All visualizations have been generated successfully!
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize Spark</span>
@@ -8668,7 +9323,7 @@ Log Message: Unusual behavior detected. Investigate further.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize Spark</span>
@@ -8967,7 +9622,7 @@ Error: [NOT_COLUMN_OR_STR] Argument `col` should be a Column or str, got list.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Initialize Spark</span>
@@ -9164,7 +9819,7 @@ Error during analysis: [NOT_COLUMN_OR_STR] Argument `col` should be a Column or 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
@@ -9620,50 +10275,50 @@ Student 1 - Partition Strategies and Caching
 
 Student 1 - Baseline Analysis (No Optimization)
 --------------------------------------------------
-Execution time: 33.57 seconds
+Execution time: 42.88 seconds
 
 Student 1 - Analysis with Custom Partitioning
 --------------------------------------------------
-Execution time: 46.91 seconds
+Execution time: 61.58 seconds
 
 Student 1 - Analysis with Caching
 --------------------------------------------------
-Execution time: 39.95 seconds
+Execution time: 52.81 seconds
 
 Performance Improvement:
-Partitioning: -39.73% faster
-Caching: -19.01% faster
+Partitioning: -43.62% faster
+Caching: -23.17% faster
 
 Student 2 - Caching and Bucketing
 ========================================
 
 Student 2 - Baseline Analysis (No Optimization)
 --------------------------------------------------
-Execution time: 22.29 seconds
+Execution time: 32.93 seconds
 
 Student 2 - Analysis with Caching
 --------------------------------------------------
-Execution time: 31.12 seconds
+Execution time: 37.80 seconds
 
 Student 2 - Analysis with Bucketing
 --------------------------------------------------
-Execution time: 3.69 seconds
+Execution time: 5.07 seconds
 
 Performance Improvement:
-Caching: -39.65% faster
-Bucketing: 83.43% faster
+Caching: -14.80% faster
+Bucketing: 84.60% faster
 
 Student 3 - Partition Strategies and Bucketing
 ========================================
 
 Student 3 - Baseline Analysis (No Optimization)
 --------------------------------------------------
-Execution time: 29.74 seconds
+Execution time: 34.68 seconds
 
 Student 3 - Analysis with Custom Partitioning
 --------------------------------------------------
 Error in Student 3 analysis: An error occurred while calling z:org.apache.spark.api.python.PythonRDD.collectAndServe.
-: org.apache.spark.SparkException: Job aborted due to stage failure: Task 3 in stage 24.0 failed 1 times, most recent failure: Lost task 3.0 in stage 24.0 (TID 129) (192.168.1.159 executor driver): org.apache.spark.api.python.PythonException: Traceback (most recent call last):
+: org.apache.spark.SparkException: Job aborted due to stage failure: Task 1 in stage 24.0 failed 1 times, most recent failure: Lost task 1.0 in stage 24.0 (TID 127) (192.168.1.159 executor driver): org.apache.spark.api.python.PythonException: Traceback (most recent call last):
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\worker.py", line 1247, in main
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\worker.py", line 1239, in process
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\serializers.py", line 146, in dump_stream
@@ -9671,7 +10326,7 @@ Error in Student 3 analysis: An error occurred while calling z:org.apache.spark.
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\rdd.py", line 3867, in add_shuffle_key
     buckets[partitionFunc(k) % numPartitions].append((k, v))  # type: ignore[operator]
             ^^^^^^^^^^^^^^^^
-  File "C:\Users\HP\AppData\Local\Temp\ipykernel_8484\128522879.py", line 225, in url_partitioner
+  File "C:\Users\HP\AppData\Local\Temp\ipykernel_30000\128522879.py", line 225, in url_partitioner
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\sql\utils.py", line 174, in wrapped
     return f(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^
@@ -9736,7 +10391,7 @@ Driver stacktrace:
 	at org.apache.spark.rdd.RDD.collect(RDD.scala:1048)
 	at org.apache.spark.api.python.PythonRDD$.collectAndServe(PythonRDD.scala:195)
 	at org.apache.spark.api.python.PythonRDD.collectAndServe(PythonRDD.scala)
-	at jdk.internal.reflect.GeneratedMethodAccessor97.invoke(Unknown Source)
+	at jdk.internal.reflect.GeneratedMethodAccessor91.invoke(Unknown Source)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:52)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
@@ -9755,7 +10410,7 @@ Caused by: org.apache.spark.api.python.PythonException: Traceback (most recent c
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\rdd.py", line 3867, in add_shuffle_key
     buckets[partitionFunc(k) % numPartitions].append((k, v))  # type: ignore[operator]
             ^^^^^^^^^^^^^^^^
-  File "C:\Users\HP\AppData\Local\Temp\ipykernel_8484\128522879.py", line 225, in url_partitioner
+  File "C:\Users\HP\AppData\Local\Temp\ipykernel_30000\128522879.py", line 225, in url_partitioner
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\sql\utils.py", line 174, in wrapped
     return f(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^
@@ -9799,7 +10454,7 @@ Student 4 - Caching and Partition Strategies
 Student 4 - Baseline Analysis (No Optimization)
 --------------------------------------------------
 Error in Student 4 analysis: An error occurred while calling z:org.apache.spark.api.python.PythonRDD.collectAndServe.
-: org.apache.spark.SparkException: Job aborted due to stage failure: Task 1 in stage 28.0 failed 1 times, most recent failure: Lost task 1.0 in stage 28.0 (TID 143) (192.168.1.159 executor driver): org.apache.spark.api.python.PythonException: Traceback (most recent call last):
+: org.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 28.0 failed 1 times, most recent failure: Lost task 0.0 in stage 28.0 (TID 142) (192.168.1.159 executor driver): org.apache.spark.api.python.PythonException: Traceback (most recent call last):
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\worker.py", line 1247, in main
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\worker.py", line 1239, in process
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\serializers.py", line 274, in dump_stream
@@ -9811,7 +10466,7 @@ Error in Student 4 analysis: An error occurred while calling z:org.apache.spark.
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\rdd.py", line 4260, in map_values_fn
     return kv[0], f(kv[1])
                   ^^^^^^^^
-  File "C:\Users\HP\AppData\Local\Temp\ipykernel_8484\128522879.py", line 294, in &lt;lambda&gt;
+  File "C:\Users\HP\AppData\Local\Temp\ipykernel_30000\128522879.py", line 294, in &lt;lambda&gt;
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\sql\utils.py", line 174, in wrapped
     return f(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^
@@ -9891,7 +10546,7 @@ Driver stacktrace:
 	at org.apache.spark.rdd.RDD.collect(RDD.scala:1048)
 	at org.apache.spark.api.python.PythonRDD$.collectAndServe(PythonRDD.scala:195)
 	at org.apache.spark.api.python.PythonRDD.collectAndServe(PythonRDD.scala)
-	at jdk.internal.reflect.GeneratedMethodAccessor97.invoke(Unknown Source)
+	at jdk.internal.reflect.GeneratedMethodAccessor91.invoke(Unknown Source)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:52)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
@@ -9914,7 +10569,7 @@ Caused by: org.apache.spark.api.python.PythonException: Traceback (most recent c
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\rdd.py", line 4260, in map_values_fn
     return kv[0], f(kv[1])
                   ^^^^^^^^
-  File "C:\Users\HP\AppData\Local\Temp\ipykernel_8484\128522879.py", line 294, in &lt;lambda&gt;
+  File "C:\Users\HP\AppData\Local\Temp\ipykernel_30000\128522879.py", line 294, in &lt;lambda&gt;
   File "c:\Users\HP\anaconda3\Lib\site-packages\pyspark\python\lib\pyspark.zip\pyspark\sql\utils.py", line 174, in wrapped
     return f(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^
@@ -9966,6 +10621,113 @@ pyspark.errors.exceptions.base.PySparkTypeError: [NOT_COLUMN_OR_STR] Argument `c
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
 	... 1 more
 
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbformat</span>
+<span class="kn">from</span> <span class="nn">nbconvert</span> <span class="kn">import</span> <span class="n">HTMLExporter</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">convert_notebook_to_html</span><span class="p">(</span><span class="n">notebook_path</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Read the notebook</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">notebook_path</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">notebook</span> <span class="o">=</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">as_version</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        
+        <span class="c1"># Create HTML exporter</span>
+        <span class="n">html_exporter</span> <span class="o">=</span> <span class="n">HTMLExporter</span><span class="p">()</span>
+        <span class="n">html_exporter</span><span class="o">.</span><span class="n">template_name</span> <span class="o">=</span> <span class="s1">'classic'</span>  <span class="c1"># Use classic template</span>
+        
+        <span class="c1"># Convert notebook to HTML</span>
+        <span class="n">body</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">html_exporter</span><span class="o">.</span><span class="n">from_notebook_node</span><span class="p">(</span><span class="n">notebook</span><span class="p">)</span>
+        
+        <span class="c1"># Determine output path</span>
+        <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">notebook_path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">'.html'</span>
+        
+        <span class="c1"># Write HTML to file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">'utf-8'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+            
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Successfully converted '</span><span class="si">{</span><span class="n">notebook_path</span><span class="si">}</span><span class="s2">' to HTML"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Output saved to: '</span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_path</span>
+        
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error: Could not find notebook file '</span><span class="si">{</span><span class="n">notebook_path</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error during conversion: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="nf">batch_convert_notebooks</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">output_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Convert all .ipynb files in a directory to HTML format.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    directory_path (str): Path to directory containing notebooks</span>
+<span class="sd">    output_directory (str): Optional path for output HTML files</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    list: Paths to all generated HTML files</span>
+<span class="sd">    """</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Create output directory if it doesn't exist</span>
+        <span class="k">if</span> <span class="n">output_directory</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_directory</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_directory</span><span class="p">)</span>
+        
+        <span class="n">converted_files</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Iterate through all files in directory</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory_path</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'.ipynb'</span><span class="p">):</span>
+                <span class="n">notebook_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                
+                <span class="k">if</span> <span class="n">output_directory</span><span class="p">:</span>
+                    <span class="n">output_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_directory</span><span class="p">,</span> 
+                                             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">'.html'</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">output_path</span> <span class="o">=</span> <span class="kc">None</span>
+                    
+                <span class="n">result</span> <span class="o">=</span> <span class="n">convert_notebook_to_html</span><span class="p">(</span><span class="n">notebook_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="n">converted_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">converted_files</span>
+        
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error during batch conversion: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="c1"># Convert a single notebook</span>
+    <span class="n">notebook_path</span> <span class="o">=</span> <span class="s2">"CN7031_Group136_2024_Draft.ipynb"</span>
+    <span class="n">html_path</span> <span class="o">=</span> <span class="n">convert_notebook_to_html</span><span class="p">(</span><span class="n">notebook_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Successfully converted 'CN7031_Group136_2024_Draft.ipynb' to HTML
+Output saved to: 'CN7031_Group136_2024_Draft.html'
 </pre>
 </div>
 </div>
