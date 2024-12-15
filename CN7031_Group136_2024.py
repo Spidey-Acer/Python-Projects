@@ -2,7 +2,7 @@
 # Cell 1 [Markdown]:
 """
 # Big Data Analytics [CN7031] CRWK 2024-25
-# Group ID: CN7031_Group136_2024
+# Group ID: CN7031_Group126_2024
 
 1. Student 1: Navya Athoti u2793047@uel.ac.uk
 2. Student 2: Phalguna Avalagunta u2811669@uel.ac.uk
@@ -55,7 +55,7 @@ from datetime import datetime
 # Initialize Spark session
 def initialize_spark():
     spark = (SparkSession.builder
-            .appName('CN7031_Group136_2024')
+            .appName('CN7031_Group126_2024')
             .config("spark.driver.memory", "4g")
             .config("spark.executor.memory", "4g")
             .config("spark.sql.shuffle.partitions", "100")
@@ -883,6 +883,6 @@ def cleanup():
 # Final Cell [Code]:
 # Convert notebook to HTML
 import os
-os.system('jupyter nbconvert --to html CN7031_Group136_2024.ipynb')
+os.system('jupyter nbconvert --to html CN7031_Group126_2024.ipynb')
 
 

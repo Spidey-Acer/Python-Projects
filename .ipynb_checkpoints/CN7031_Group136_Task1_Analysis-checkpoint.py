@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Initialize Spark session
-conf = SparkConf().setAppName('CN7031_Group136_2024')
+conf = SparkConf().setAppName('CN7031_Group126_2024')
 sc = SparkContext(conf=conf)
 spark = SparkSession(sc)
 
