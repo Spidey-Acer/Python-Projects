@@ -1,6 +1,6 @@
 # Data Processing using PySpark
 
-## Task 1: DataFrame Creation with REGEX (10 marks)
+## Task 1: DataFrame Creation with REGEX
 
 Each member will define a custom schema using REGEX to extract specific metrics from the dataset.
 
@@ -15,7 +15,7 @@ Each member will define a custom schema using REGEX to extract specific metrics 
 - **Student 4**: Log Message, HTTP Status Code, Timestamp  
    **REGEX Example**: `\".*\" (\d+) .* \[(.*?)\] (.*)`
 
-## Task 2: Two Advanced DataFrame Analysis (20 marks)
+## Task 2: Two Advanced DataFrame Analysis
 
 Each member will write unique SQL queries for the analysis:
 
@@ -41,7 +41,7 @@ Each member will write unique SQL queries for the analysis:
 - **Student 4**: Daily unique visitors  
    **Description**: Count unique IPs per day.
 
-## Task 3: Data Visualization (10 marks)
+## Task 3: Data Visualization using Matplotlib and Seaborn
 
 Each member will visualize the results of their unique SQL queries using different chart types.
 
@@ -58,7 +58,7 @@ Each member will visualize the results of their unique SQL queries using differe
 
 # Data Processing using PySpark RDD
 
-## Task 1: Basic RDD Analysis (10 marks)
+## Task 1: Basic RDD Analysis
 
 Each member will create a custom function to parse and process the log entries.
 
@@ -73,7 +73,7 @@ Each member will create a custom function to parse and process the log entries.
 - **Student 4**: Extract Log Message and IP Address  
    **Description**: Parse log messages and corresponding IP addresses.
 
-## Task 2: Two Advanced RDD Analysis (30 marks)
+## Task 2: Two Advanced RDD Analysis
 
 Each member will perform unique advanced processing tasks.
 
@@ -88,7 +88,7 @@ Each member will perform unique advanced processing tasks.
 - **Student 4**: Detect failed requests per IP  
    **Description**: Identify IPs with the most failed requests.
 
-## Optimization and LSEPI Considerations (10 marks)
+## Optimization and LSEPI Considerations
 
 Each member chooses two unique methods for optimization.
 
@@ -99,18 +99,16 @@ Each member chooses two unique methods for optimization.
 - **Student 3**: Partition Strategies, Bucketing & Indexing
 - **Student 4**: Caching, Partition Strategies
 
-## Starter code
+## Starter Code
 
-```
+```json
 {
   "nbformat": 4,
   "nbformat_minor": 0,
   "metadata": {
     "colab": {
       "provenance": [],
-      "collapsed_sections": [
-        "Lx9-Fre4FMda"
-      ]
+      "collapsed_sections": ["Lx9-Fre4FMda"]
     },
     "kernelspec": {
       "name": "python3",
@@ -133,7 +131,6 @@ Each member chooses two unique methods for optimization.
         "\n",
         "---\n",
         "\n",
-        "\n",
         "If you want to add comments on your group work, please write it here for us:"
       ]
     },
@@ -142,21 +139,14 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "GdMZR-9QTwG3"
       },
-      "source": [
-        "\n",
-        "# Initiate and Configure Spark\n",
-        "\n",
-        "---\n"
-      ]
+      "source": ["\n", "# Initiate and Configure Spark\n", "\n", "---\n"]
     },
     {
       "cell_type": "code",
       "metadata": {
         "id": "2wbXV70D6xbl"
       },
-      "source": [
-        "!pip3 install pyspark"
-      ],
+      "source": ["!pip3 install pyspark"],
       "execution_count": null,
       "outputs": []
     },
@@ -165,9 +155,7 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "_z0p88Xtw_3-"
       },
-      "source": [
-        "# linking with Spark\n"
-      ],
+      "source": ["# linking with Spark\n"],
       "execution_count": null,
       "outputs": []
     },
@@ -176,16 +164,12 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "6P2CZVl6TOQX"
       },
-      "source": [
-        "# Load Unstructured Data\n",
-        "\n",
-        "---\n"
-      ]
+      "source": ["# Load Unstructured Data\n", "\n", "---\n"]
     },
     {
       "cell_type": "code",
       "source": [
-        "# Load the unstructrued data: (1) drag and drop data on the \"Files\" section or (2) use Google Drive"
+        "# Load the unstructured data: (1) drag and drop data on the \"Files\" section or (2) use Google Drive"
       ],
       "metadata": {
         "id": "efdQkCg_soaq"
@@ -224,9 +208,7 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "7fCFTcOQBLD2"
       },
-      "source": [
-        "# Task 1 - Student 1\n"
-      ],
+      "source": ["# Task 1 - Student 1\n"],
       "execution_count": null,
       "outputs": []
     },
@@ -245,9 +227,7 @@ Each member chooses two unique methods for optimization.
     },
     {
       "cell_type": "code",
-      "source": [
-        "# Task 1 - Student 2\n"
-      ],
+      "source": ["# Task 1 - Student 2\n"],
       "metadata": {
         "id": "kHPoRpSD4vYW"
       },
@@ -269,9 +249,7 @@ Each member chooses two unique methods for optimization.
     },
     {
       "cell_type": "code",
-      "source": [
-        "# Task 1 - Student 3\n"
-      ],
+      "source": ["# Task 1 - Student 3\n"],
       "metadata": {
         "id": "-TZIFMZB4xFZ"
       },
@@ -293,9 +271,7 @@ Each member chooses two unique methods for optimization.
     },
     {
       "cell_type": "code",
-      "source": [
-        "# Task 1 - Student 4\n"
-      ],
+      "source": ["# Task 1 - Student 4\n"],
       "metadata": {
         "id": "5KsnRrDK4zRB"
       },
@@ -331,9 +307,7 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "V3eiN9geBQRf"
       },
-      "source": [
-        "# Task 2 - Student 1\n"
-      ],
+      "source": ["# Task 2 - Student 1\n"],
       "execution_count": null,
       "outputs": []
     },
@@ -354,9 +328,7 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "FQ_-hgdeiMle"
       },
-      "source": [
-        "# Task 2 - Student 2\n"
-      ],
+      "source": ["# Task 2 - Student 2\n"],
       "execution_count": null,
       "outputs": []
     },
@@ -377,9 +349,7 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "2JGQHXYliMK5"
       },
-      "source": [
-        "# Task 2 - Student 3\n"
-      ],
+      "source": ["# Task 2 - Student 3\n"],
       "execution_count": null,
       "outputs": []
     },
@@ -400,9 +370,7 @@ Each member chooses two unique methods for optimization.
       "metadata": {
         "id": "A5mwMvIsBQlX"
       },
-      "source": [
-        "# Task 2 - Student 4\n"
-      ],
+      "source": ["# Task 2 - Student 4\n"],
       "execution_count": null,
       "outputs": []
     },
@@ -439,9 +407,7 @@ Each member chooses two unique methods for optimization.
     },
     {
       "cell_type": "code",
-      "source": [
-        "# Task 3 - Student 1\n"
-      ],
+      "source": ["# Task 3 - Student 1\n"],
       "metadata": {
         "id": "8dbo5dG25ra2"
       },
@@ -470,9 +436,7 @@ Each member chooses two unique methods for optimization.
     },
     {
       "cell_type": "code",
-      "source": [
-        "# Task 3 - Student 2\n"
-      ],
+      "source": ["# Task 3 - Student 2\n"],
       "metadata": {
         "id": "8ZTAGJiz5tIX"
       },
@@ -501,9 +465,7 @@ Each member chooses two unique methods for optimization.
     },
     {
       "cell_type": "code",
-      "source": [
-        "# Task 3 - Student 3\n"
-      ],
+      "source": ["# Task 3 - Student 3\n"],
       "metadata": {
         "id": "WOFn2U7F5urh"
       },
@@ -532,9 +494,7 @@ Each member chooses two unique methods for optimization.
     },
     {
       "cell_type": "code",
-      "source": [
-        "# Task 3 - Student 4\n"
-      ],
+      "source": ["# Task 3 - Student 4\n"],
       "metadata": {
         "id": "Gu3ere9c5wJ4"
       },
@@ -572,5 +532,4 @@ Each member chooses two unique methods for optimization.
     }
   ]
 }
-
 ```

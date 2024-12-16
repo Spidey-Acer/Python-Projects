@@ -7546,43 +7546,78 @@ Email: u2773584@uel.ac.uk</li>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip3<span class="w"> </span>install<span class="w"> </span>pyspark
-
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># System and Environment Setup</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"JAVA_HOME: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'JAVA_HOME'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Not set'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PYSPARK_PYTHON'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PYSPARK_DRIVER_PYTHON'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
-
-<span class="kn">import</span> <span class="nn">findspark</span>
-<span class="n">findspark</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-
-<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkContext</span><span class="p">,</span> <span class="n">SparkConf</span>
-<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
-<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="nb">max</span> <span class="k">as</span> <span class="n">spark_max</span>
-<span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span>
-<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="k">def</span> <span class="nf">initialize_spark</span><span class="p">():</span>
+<span class="c1"># Configure PySpark Environment</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PYSPARK_PYTHON'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'PYSPARK_DRIVER_PYTHON'</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
+
+<span class="c1"># Initialize Findspark</span>
+<span class="kn">import</span> <span class="nn">findspark</span>
+<span class="n">findspark</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="c1"># PySpark Imports</span>
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkContext</span><span class="p">,</span> <span class="n">SparkConf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">col</span><span class="p">,</span>
+    <span class="n">regexp_extract</span><span class="p">,</span>
+    <span class="n">to_timestamp</span><span class="p">,</span>
+    <span class="nb">max</span> <span class="k">as</span> <span class="n">spark_max</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.window</span> <span class="kn">import</span> <span class="n">Window</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">StructType</span><span class="p">,</span>
+    <span class="n">StructField</span><span class="p">,</span>
+    <span class="n">StringType</span><span class="p">,</span>
+    <span class="n">TimestampType</span><span class="p">,</span>
+    <span class="n">IntegerType</span>
+<span class="p">)</span>
+
+<span class="c1"># Data Analysis and Visualization Libraries</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">initialize_spark</span><span class="p">(</span><span class="n">app_name</span><span class="o">=</span><span class="s2">"Log_Analysis"</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="s2">"4g"</span><span class="p">,</span> <span class="n">partitions</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Initialize a Spark session with configurable parameters</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    app_name : str</span>
+<span class="sd">        Name of the Spark application</span>
+<span class="sd">    memory : str</span>
+<span class="sd">        Amount of memory to allocate for driver and executor</span>
+<span class="sd">    partitions : int</span>
+<span class="sd">        Number of shuffle partitions</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    SparkSession</span>
+<span class="sd">        Configured Spark session</span>
+<span class="sd">    """</span>
     <span class="n">spark</span> <span class="o">=</span> <span class="p">(</span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span>
-            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s1">'CN7031_Group126_2024'</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.driver.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.executor.memory"</span><span class="p">,</span> <span class="s2">"4g"</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.sql.shuffle.partitions"</span><span class="p">,</span> <span class="s2">"100"</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="n">app_name</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.driver.memory"</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.executor.memory"</span><span class="p">,</span> <span class="n">memory</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">"spark.sql.shuffle.partitions"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">partitions</span><span class="p">))</span>
             <span class="o">.</span><span class="n">master</span><span class="p">(</span><span class="s2">"local[*]"</span><span class="p">)</span>
             <span class="o">.</span><span class="n">getOrCreate</span><span class="p">())</span>
+    
+    <span class="c1"># Print Java Home for debugging</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"JAVA_HOME: </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'JAVA_HOME'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Not set'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">spark</span>
 
+<span class="c1"># Initialize Spark Session</span>
 <span class="n">spark</span> <span class="o">=</span> <span class="n">initialize_spark</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7596,9 +7631,7 @@ Email: u2773584@uel.ac.uk</li>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Requirement already satisfied: pyspark in c:\users\hp\anaconda3\lib\site-packages (3.5.3)
-Requirement already satisfied: py4j==0.10.9.7 in c:\users\hp\anaconda3\lib\site-packages (from pyspark) (0.10.9.7)
-JAVA_HOME: C:\Program Files\Java\jdk-21
+<pre>JAVA_HOME: C:\Program Files\Java\jdk-21
 </pre>
 </div>
 </div>
@@ -7620,10 +7653,11 @@ JAVA_HOME: C:\Program Files\Java\jdk-21
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"web.log"</span><span class="p">):</span>
+    
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"File not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -7631,10 +7665,12 @@ JAVA_HOME: C:\Program Files\Java\jdk-21
         <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Successfully loaded </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="si">}</span><span class="s2"> log entries"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span>
+        
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error loading data: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">raise</span>
 
+<span class="c1"># Load the log data</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">spark</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -7742,7 +7778,7 @@ JAVA_HOME: C:\Program Files\Java\jdk-21
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_student1_df</span><span class="p">():</span>
@@ -7773,15 +7809,52 @@ JAVA_HOME: C:\Program Files\Java\jdk-21
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Student 1 DataFrame Schema:
-root
- |-- ip_address: string (nullable = true)
- |-- timestamp: timestamp (nullable = true)
- |-- http_method: string (nullable = true)
- |-- url_path: string (nullable = true)
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">~\AppData\Local\Temp\ipykernel_38804\3185861568.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+<span class="ansi-green-fg">     10</span>     )
+<span class="ansi-green-fg">     11</span>     student1_df<span class="ansi-yellow-intense-fg ansi-bold">.</span>createOrReplaceTempView<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">"student1_logs"</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">     12</span>     <span class="ansi-green-intense-fg ansi-bold">return</span> student1_df
+<span class="ansi-green-fg">     13</span> 
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 14</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>student1_df <span class="ansi-yellow-intense-fg ansi-bold">=</span> create_student1_df<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">     15</span> 
+<span class="ansi-green-fg">     16</span> print<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">"Student 1 DataFrame Schema:"</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">     17</span> student1_df<span class="ansi-yellow-intense-fg ansi-bold">.</span>printSchema<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
 
-</pre>
+<span class="ansi-green-intense-fg ansi-bold">~\AppData\Local\Temp\ipykernel_38804\3185861568.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-green-intense-fg ansi-bold">def</span> create_student1_df<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">      2</span>     student1_df = logs_df.select(
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>regexp_extract<span class="ansi-yellow-intense-fg ansi-bold">(</span>col<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">"value"</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">r"(\d+\.\d+\.\d+\.\d+)"</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>alias<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">"ip_address"</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-fg">      4</span>         to_timestamp(
+<span class="ansi-green-fg">      5</span>             regexp_extract<span class="ansi-yellow-intense-fg ansi-bold">(</span>col<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">"value"</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">r"\[(.*?)\]"</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-fg">      6</span>             <span class="ansi-blue-intense-fg ansi-bold">"dd/MMM/yyyy:HH:mm:ss"</span>
+
+<span class="ansi-green-intense-fg ansi-bold">c:\Users\HP\anaconda3\Lib\site-packages\pyspark\sql\utils.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
+<span class="ansi-green-fg">    170</span>             <span class="ansi-green-intense-fg ansi-bold">from</span> pyspark<span class="ansi-yellow-intense-fg ansi-bold">.</span>sql<span class="ansi-yellow-intense-fg ansi-bold">.</span>connect <span class="ansi-green-intense-fg ansi-bold">import</span> functions
+<span class="ansi-green-fg">    171</span> 
+<span class="ansi-green-fg">    172</span>             <span class="ansi-green-intense-fg ansi-bold">return</span> getattr<span class="ansi-yellow-intense-fg ansi-bold">(</span>functions<span class="ansi-yellow-intense-fg ansi-bold">,</span> f<span class="ansi-yellow-intense-fg ansi-bold">.</span>__name__<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>args<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">**</span>kwargs<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    173</span>         <span class="ansi-green-intense-fg ansi-bold">else</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 174</span><span class="ansi-yellow-intense-fg ansi-bold">             </span><span class="ansi-green-intense-fg ansi-bold">return</span> f<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>args<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">**</span>kwargs<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">c:\Users\HP\anaconda3\Lib\site-packages\pyspark\sql\functions.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-intense-fg ansi-bold">(col)</span>
+<span class="ansi-green-fg">    219</span>     Column<span class="ansi-yellow-intense-fg ansi-bold">&lt;</span><span class="ansi-blue-intense-fg ansi-bold">'x'</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;</span>
+<span class="ansi-green-fg">    220</span>     <span class="ansi-yellow-intense-fg ansi-bold">&gt;&gt;</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;</span> column<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">'x'</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    221</span>     Column<span class="ansi-yellow-intense-fg ansi-bold">&lt;</span><span class="ansi-blue-intense-fg ansi-bold">'x'</span><span class="ansi-yellow-intense-fg ansi-bold">&gt;</span>
+<span class="ansi-green-fg">    222</span>     """
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 223</span><span class="ansi-yellow-intense-fg ansi-bold">     </span><span class="ansi-green-intense-fg ansi-bold">return</span> _invoke_function<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">"col"</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> col<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">c:\Users\HP\anaconda3\Lib\site-packages\pyspark\sql\functions.py</span> in <span class="ansi-cyan-fg">?</span><span class="ansi-blue-intense-fg ansi-bold">(name, *args)</span>
+<span class="ansi-green-fg">     91</span>     """
+<span class="ansi-green-fg">     92</span>     Invokes JVM function identified by name <span class="ansi-green-intense-fg ansi-bold">with</span> args
+<span class="ansi-green-fg">     93</span>     <span class="ansi-green-intense-fg ansi-bold">and</span> wraps the result <span class="ansi-green-intense-fg ansi-bold">with</span> <span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-green-intense-fg ansi-bold">class</span><span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-red-fg">`</span><span class="ansi-yellow-intense-fg ansi-bold">~</span>pyspark<span class="ansi-yellow-intense-fg ansi-bold">.</span>sql<span class="ansi-yellow-intense-fg ansi-bold">.</span>Column<span class="ansi-red-fg">`</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>
+<span class="ansi-green-fg">     94</span>     """
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 95</span><span class="ansi-yellow-intense-fg ansi-bold">     </span><span class="ansi-green-intense-fg ansi-bold">assert</span> SparkContext<span class="ansi-yellow-intense-fg ansi-bold">.</span>_active_spark_context <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">not</span> <span class="ansi-green-intense-fg ansi-bold">None</span>
+<span class="ansi-green-fg">     96</span>     jf <span class="ansi-yellow-intense-fg ansi-bold">=</span> _get_jvm_function<span class="ansi-yellow-intense-fg ansi-bold">(</span>name<span class="ansi-yellow-intense-fg ansi-bold">,</span> SparkContext<span class="ansi-yellow-intense-fg ansi-bold">.</span>_active_spark_context<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">     97</span>     <span class="ansi-green-intense-fg ansi-bold">return</span> Column<span class="ansi-yellow-intense-fg ansi-bold">(</span>jf<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>args<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-red-intense-fg ansi-bold">AssertionError</span>: </pre>
 </div>
 </div>
 </div>
@@ -8101,7 +8174,7 @@ only showing top 5 rows
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Student-1:-Navya-Athoti">Student 1: Navya Athoti<a class="anchor-link" href="#Student-1:-Navya-Athoti">¶</a></h2><h3 id="Query-1:-Rolling-Hourly-Traffic-per-IP-(Window-Function)">Query 1: Rolling Hourly Traffic per IP (Window Function)<a class="anchor-link" href="#Query-1:-Rolling-Hourly-Traffic-per-IP-(Window-Function)">¶</a></h3>
+<h2 id="Navya-Athoti">Navya Athoti<a class="anchor-link" href="#Navya-Athoti">¶</a></h2><h3 id="Query-1:-Rolling-Hourly-Traffic-per-IP-(Window-Function)">Query 1: Rolling Hourly Traffic per IP (Window Function)<a class="anchor-link" href="#Query-1:-Rolling-Hourly-Traffic-per-IP-(Window-Function)">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8861,8 +8934,7 @@ only showing top 5 rows
 <div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Shared Imports and Utilities</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -8870,11 +8942,11 @@ only showing top 5 rows
 
 <span class="k">def</span> <span class="nf">create_sample_data</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Create sample log data"""</span>
-    <span class="c1"># Generate sample data</span>
+ 
     <span class="n">base_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
     
-    <span class="c1"># Generate 1000 records for student1_logs</span>
+   
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
         <span class="n">timestamp</span> <span class="o">=</span> <span class="n">base_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">i</span> <span class="o">%</span> <span class="mi">24</span><span class="p">)</span>
         <span class="n">ip</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"192.168.1.</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
@@ -8889,7 +8961,7 @@ only showing top 5 rows
     
     <span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     
-    <span class="c1"># Generate different data for student2_logs</span>
+    
     <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
         <span class="n">timestamp</span> <span class="o">=</span> <span class="n">base_time</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">i</span> <span class="o">%</span> <span class="mi">24</span><span class="p">)</span>
@@ -10449,7 +10521,7 @@ AttributeError: 'SaiKishoreAnalysis' object has no attribute 'optimized_with_cac
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbformat</span>
